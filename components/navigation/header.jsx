@@ -9,12 +9,21 @@ import { socials } from "../utils/data";
 
 export default function Header({ blog }) {
   const [sideBarToogle, setSideBarToogle] = useState(false);
-  /*  useEffect(() => {
-    if (!blog) {
-      activeSection();
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      const header = document.querySelector(`.${styles.header_left}`);
+      if (header && !header.contains(event.target)) {
+        setSideBarToogle(false);
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); */
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setSideBarToogle]);
 
   return (
     <Fragment>
