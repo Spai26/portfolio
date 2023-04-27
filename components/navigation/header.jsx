@@ -7,7 +7,7 @@ import MenuItems from "./itemsNav";
 import { RxHamburgerMenu, RxCross1 } from "react-icons/rx";
 import { socials } from "../utils/data";
 
-export default function Header({ blog }) {
+export default function Header() {
   const [sideBarToogle, setSideBarToogle] = useState(false);
 
   useEffect(() => {
@@ -26,67 +26,64 @@ export default function Header({ blog }) {
   }, [sideBarToogle]);
 
   return (
-    console.log(sideBarToogle),
-    (
-      <Fragment>
-        {/* nav movile */}
-        <div className={styles.mov_header}>
-          <div className={styles.c_flex}>
-            <div className={styles.navbar}>
-              <Link href="/">SergioAi</Link>
-            </div>
-            {/* toogle button */}
-            <button
-              className={`${styles.toogle_menu} `}
-              onClick={() => setSideBarToogle(!sideBarToogle)}
-            >
-              {sideBarToogle ? (
-                <RxCross1 className={styles.base} />
-              ) : (
-                <RxHamburgerMenu className={styles.base} />
-              )}
-            </button>
+    <Fragment>
+      {/* nav movile */}
+      <div className={styles.mov_header}>
+        <div className={styles.c_flex}>
+          <div className={styles.navbar}>
+            <Link href="/">SergioAi</Link>
           </div>
+          {/* toogle button */}
+          <button
+            className={`${styles.toogle_menu} `}
+            onClick={() => setSideBarToogle(!sideBarToogle)}
+          >
+            {sideBarToogle ? (
+              <RxCross1 className={styles.base} />
+            ) : (
+              <RxHamburgerMenu className={styles.base} />
+            )}
+          </button>
         </div>
-        {/* end nav movile */}
+      </div>
+      {/* end nav movile */}
 
-        {/* navbar */}
-        <header
-          className={`${styles.header_left} ${
-            sideBarToogle ? `${styles.menu_open}` : ""
-          }`}
-        >
-          <div className={styles.scroll_bar}>
-            <div className={styles.hl_top}>
-              <div className={styles.hl_logo}>
-                <div className={styles.img}>
-                  <Image
-                    src={icon}
-                    alt="me icon"
-                    unoptimized={true}
-                    priority={true}
-                  />
-                </div>
-                <h5>SergioAi</h5>
+      {/* navbar */}
+      <header
+        className={`${styles.header_left} ${
+          sideBarToogle ? `${styles.menu_open}` : ""
+        }`}
+      >
+        <div className={styles.scroll_bar}>
+          <div className={styles.hl_top}>
+            <div className={styles.hl_logo}>
+              <div className={styles.img}>
+                <Image
+                  src={icon}
+                  alt="me icon"
+                  unoptimized={true}
+                  priority={true}
+                />
               </div>
+              <h5>SergioAi</h5>
             </div>
-            {blog ? "" : <MenuItems />}
           </div>
+          <MenuItems />
+        </div>
 
-          <div className={styles.socials_icon}>
-            {socials.map((social, index) => (
-              <a
-                key={index}
-                target="_blank"
-                rel="noopener noreferrer"
-                href={social.url}
-              >
-                {social.svg}
-              </a>
-            ))}
-          </div>
-        </header>
-      </Fragment>
-    )
+        <div className={styles.socials_icon}>
+          {socials.map((social, index) => (
+            <a
+              key={index}
+              target="_blank"
+              rel="noopener noreferrer"
+              href={social.url}
+            >
+              {social.svg}
+            </a>
+          ))}
+        </div>
+      </header>
+    </Fragment>
   );
 }

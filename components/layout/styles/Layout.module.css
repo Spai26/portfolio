@@ -1,0 +1,8 @@
+@media (min-width: 1201px) {
+  .layout {
+    left: 250px;
+    position: absolute;
+    height: 100%;
+    width: calc(100% - 250px);
+  }
+}

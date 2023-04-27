@@ -1,5 +1,6 @@
 @import "./globals.css";
-@import "./normalice.module.css";
+@import "./components.css";
+@import "./normalice.css";
 
 html,
 body {
@@ -8,6 +9,9 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
+  line-height: 1.7;
+  font-size: 15px;
+  font-weight: 300;
 }
 
 body::-webkit-scrollbar {
@@ -15,7 +19,7 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-track {
-  background-color: var(--color-primary);
+  background-color: var(--color-ligth);
 }
 
 body::-webkit-scrollbar-thumb {
@@ -37,73 +41,4 @@ a:active,
 a:visited {
   text-decoration: none;
   border: none;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  margin-top: 0;
-  font-weight: 700;
-}
-
-p {
-  margin-top: 0;
-}
-
-button {
-  border: none;
-  border-radius: var(--border-radius);
-  text-align: center;
-  padding: 0.5rem;
-}
-
-.home {
-  width: 100%;
-}
-
-#loading {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #2fbf71;
-  z-index: 99999;
-}
-
-.load-circle {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  width: 50px;
-  height: 50px;
-}
-.load-circle span {
-  display: inline-block;
-  width: 64px;
-  height: 64px;
-}
-.load-circle span:after {
-  content: " ";
-  display: block;
-  width: 46px;
-  height: 46px;
-  margin: 1px;
-  border-radius: 50%;
-  border: 5px solid #fff;
-  border-color: #fff transparent #fff transparent;
-  animation: lds-dual-ring 1.2s linear infinite;
-}
-
-@keyframes lds-dual-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }

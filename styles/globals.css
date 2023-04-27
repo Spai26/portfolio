@@ -9,14 +9,10 @@
   --font-family-primary: "Rubik", sans-serif;
   --font-family-secundary: "Playfair Display", serif;
   --color-primary: #ffffff;
-  --color-secundary: #2fbf71;
-  --text-color: rgba(255, 255, 255, 0.6);
-  --bg-color-base: rgba(255, 255, 255, 0.8);
+  --color-secundary: #10101a;
+  --color-primary-acent: rgba(255, 255, 255, 0.6);
+  --color-secundary-acent: #2fbf71;
   --color-ligth: #0b0b13;
-  --bg-color-dark: #10101a;
-  --bg-color-light: #ffffff;
-  --theme-bg-color-dark: #0b0b13;
+  --theme-bg-color-dark: #10101a;
   --theme-bg-color-light: #f7f7ff;
-  --color-hover: #2fbf71;
-  --max-content: 1200px;
 }
