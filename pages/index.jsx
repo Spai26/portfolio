@@ -7,7 +7,8 @@ import Porfolio from "./portfolio";
 import Services from "./services";
 import Contact from "./contact";
 import styles from "../src/components/pagesStyles/Home.module.css";
-import { life } from "../src/components/utils/home";
+import TypeAnimation from "@/src/components/typeAnimation";
+import { life } from "@/src/components/utils/home";
 export default function Home() {
   return (
     <RootLayout>
@@ -19,11 +20,13 @@ export default function Home() {
                 <div className={styles.type_box}>
                   <h6>Hello, I am</h6>
                   <h1>{life.name}</h1>
-                  <p className={styles.lead}>Soy un apasionado </p>
+                  <p className={styles.lead}>
+                    Soy un apasionado <TypeAnimation styles={styles.typed} />
+                  </p>
                   <p className={styles.des}>{life.bio}</p>
                   <div className={styles.btn_bar}>
                     <a
-                      className={styles.btn}
+                      className="btn"
                       href="/Sergio_Avalos_CV.pdf"
                       target="_blank"
                     >
