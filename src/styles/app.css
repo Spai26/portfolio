@@ -1,0 +1,85 @@
+@import "./globals.css";
+@import "./components.css";
+@import "./normalice.css";
+
+html,
+body {
+  font-family: var(--font-family-primary);
+  margin: 0;
+  padding: 0;
+  line-height: 1.7;
+  font-size: 15px;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+  width: 0.4rem;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: var(--color-ligth);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary-acent);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a,
+a:active,
+a:visited {
+  text-decoration: none;
+  border: none;
+}
+
+.pp-section {
+  background: var(--color-secundary);
+}
+.pp-scrollable {
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 950px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+.color_switch {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  width: 45px;
+  height: 45px;
+  line-height: 50px;
+  background: var(--color-primary);
+  color: var(--color-icon-base);
+  text-align: center;
+  font-size: 20px;
+  border-radius: 50%;
+  z-index: 1111;
+  cursor: pointer;
+}
+
+@media (max-width: 1200px) {
+  .color_switch {
+    top: 71px;
+    right: 13px;
+  }
+}

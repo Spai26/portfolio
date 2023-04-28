@@ -8,7 +8,11 @@ const MoodTheme = () => {
   };
   return (
     <label className="color_switch" onClick={() => changeMood()}>
-      {status ? <BsCloudSun /> : <BsMoonStarsFill />}
+      {status ? (
+        <BsCloudSun className="base" />
+      ) : (
+        <BsMoonStarsFill className="base" />
+      )}
     </label>
   );
 };
