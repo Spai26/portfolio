@@ -45,7 +45,9 @@ a:visited {
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5,
+h6 {
   margin-top: 0;
 }
 
@@ -60,6 +62,7 @@ p {
 .pp-scrollable {
   overflow-x: hidden;
 }
+
 .section {
   padding: 100px 0;
 }
@@ -115,6 +118,25 @@ img {
   background: var(--color-primary);
   color: var(--color-secundary-acent);
   box-shadow: 4px 4px var(--color-secundary-acent);
+}
+
+.separated {
+  padding-top: 80px;
+  padding-bottom: 80px;
+  position: relative;
+}
+
+.separated:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  height: 1px;
+  background: var(--color-primary-acent);
+  opacity: 0.1;
 }
 
 @media (max-width: 1200px) {

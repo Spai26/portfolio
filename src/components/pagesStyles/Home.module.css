@@ -1,7 +1,7 @@
 .home_banner {
   overflow: hidden;
   position: relative;
-  color: aliceblue;
+  color: var(--color-primary);
   z-index: 1;
 }
 

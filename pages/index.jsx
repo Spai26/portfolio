@@ -43,11 +43,11 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <About />
-        <Porfolio />
-        <Services />
-        <Contact />
       </section>
+      <About />
+      <Porfolio />
+      <Services />
+      <Contact />
     </RootLayout>
   );
 }
