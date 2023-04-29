@@ -1,0 +1,106 @@
+.data {
+  min-height: 100vh;
+  border-top: 1px solid var(--color-primary-acent);
+  color: var(--color-primary);
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+.text {
+  margin-bottom: 35px;
+}
+
+.text > h3 {
+  color: #fff;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  font-weight: 300;
+  font-size: 30px;
+  display: inline-block;
+  vertical-align: top;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+}
+
+.text > h3:after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: -7px;
+  left: 56px;
+  right: 0;
+  z-index: -1;
+  background: var(--color-secundary-acent);
+}
+
+.text h3:before {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  right: 0;
+  width: 60px;
+  background: var(--color-secundary-acent);
+  height: 1px;
+}
+
+.box {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.work {
+  background-color: var(--color-icon-base);
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.work:hover {
+  background-color: var(--color-secundary-acent);
+}
+
+.work_det {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+.work_det > div:first-child {
+  font-size: 50px;
+}
+
+.detail {
+  padding-left: 30px;
+}
+
+.detail > h5 {
+  font-size: 1.25rem;
+  margin-bottom: 15px;
+  letter-spacing: 1.2px;
+  text-transform: capitalize;
+}
+
+.detail div:last-child {
+  display: flex;
+  padding-top: 15px;
+  gap: 15px;
+}
+
+.detail div:last-child > a {
+  color: var(--color-primary);
+}
+
+.icons {
+  padding-bottom: 10px;
+}
+.icons > span + span {
+  margin-left: 15px;
+}
+@media (max-width: 767px) {
+  .text > h3 {
+    letter-spacing: 2px;
+  }
+}

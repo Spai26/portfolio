@@ -71,21 +71,72 @@ export const contact = {
     "Me encantaría tener la oportunidad de contribuir con mi experiencia y habilidades en tu proyecto.",
 };
 
-export const porftfolio = [
-  {
-    title: "Videogames",
-    icon: work1,
-    description: "",
-    repositorio: "https://github.com/Spai26/PI-videogames.git",
-    urlb: "",
-    urlb: "",
-  },
-  {
-    title: "Ediciones lexicom",
-    icon: work1,
-    description: "",
-    repositorio: "https://github.com/Spai26/Rick-and-Morty-API.git",
-    urlb: "",
-    urlb: "",
-  },
-];
+import { CgGames } from "react-icons/cg";
+import { GiSpaceship } from "react-icons/gi";
+import { BsHeartPulse } from "react-icons/bs";
+import { AiOutlineCloudUpload } from "react-icons/ai";
+import { BiMailSend } from "react-icons/bi";
+import {
+  SiReact,
+  SiPhp,
+  SiMongodb,
+  SiJavascript,
+  SiPostgresql,
+  SiMysql,
+  SiNextdotjs,
+  SiNodedotjs,
+  SiExpress,
+} from "react-icons/si";
+export const porftfolio = {
+  title: "my Portfolio.",
+  works: [
+    {
+      title: "Videogames",
+      icon: <CgGames />,
+      description:
+        "En este proyecto se aplicó un SPA con landing page, donde se aplico RES API con Rawg, en el cual se integro un CRUD básico solo se uso una lista de 100 items, con manejo de filtrado, ordenamiento, busqueda, creación y detalle del videojuego. Puedes ver el resultado en.",
+
+      repo: "https://github.com/Spai26/PI-videogames.git",
+      page: "",
+      tols: [
+        { icon: <SiJavascript /> },
+        { icon: <SiPostgresql /> },
+        { icon: <SiReact /> },
+        { icon: <SiNodedotjs /> },
+        { icon: <SiNextdotjs /> },
+        { icon: <SiExpress /> },
+      ],
+    },
+    {
+      title: "Rick & Mortin",
+      icon: <GiSpaceship />,
+      description:
+        "En este proyecto, se aplicó un SPA, con login básico, renderizado de la API Rick && Mortyn, donde se aplicó filtrados, ordenamientos, lista favoritos, busqueda. Puede ver el resultado en.",
+      tols: [
+        { icon: <SiJavascript /> },
+        { icon: <SiReact /> },
+        { icon: <SiNodedotjs /> },
+        { icon: <SiNextdotjs /> },
+        { icon: <SiExpress /> },
+      ],
+      repo: "https://github.com/Spai26/Rick-and-Morty-API.git",
+      page: "",
+    },
+    {
+      title: "AES",
+      icon: <BsHeartPulse />,
+      description:
+        "En este proyecto, hemos creado una SPA de educación sanitaria en el que nos enfocamos en atraer a los usuarios para que puedan ayudar socialmente a personas que lo necesiten. Puede visitar el resultado en. ",
+      tols: [
+        { icon: <SiMongodb /> },
+        { icon: <SiNodedotjs /> },
+        { icon: <SiNextdotjs /> },
+        { icon: <SiExpress /> },
+        { icon: <AiOutlineCloudUpload /> },
+        { icon: <BiMailSend /> },
+      ],
+      repo: "https://github.com/Spai26/AES_bakend.git",
+      page: "https://educacionsanitaria.org/",
+    },
+  ],
+};
