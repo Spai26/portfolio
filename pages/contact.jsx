@@ -1,39 +1,120 @@
-import Link from "next/link";
+import style from "@/src/components/pagesStyles/Contact.module.css";
+import emailjs from "@emailjs/browser";
+import { contact } from "@/src/components/utils/home";
+import { useRef, useState } from "react";
+import { BsLinkedin } from "react-icons/bs";
+
+const initialState = {
+  name: "",
+  email: "",
+  subject: "",
+  message: "",
+};
+
 const Contact = () => {
+  const [values, setValues] = useState(initialState);
+  const [errors, setErrors] = useState(null);
+  const form = useRef();
+  function handleOnChange(e) {
+    const { value, name } = e.target;
+    setValues({ ...values, [name]: value });
+  }
+
+  function onSubmitForm(e) {
+    e.preventDefault();
+    if (!name.length || !email.length || !message.length || !subject.length) {
+      setErrors(true);
+      clearError();
+    }
+
+    emailjs
+      .send("service_nmhan4q", "template_s268zk8", values, "0NHpcdXHFUJ0791eq")
+      .then(
+        (response) => {
+          setErrors(false);
+          clearError();
+          setValues(initialState);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  }
+
+  function clearError() {
+    setTimeout(() => {
+      setErrors(null);
+    }, 2000);
+  }
   return (
-    <section className="contact">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero quis,
-      explicabo accusantium aliquid mollitia laudantium in expedita sapiente
-      maxime officiis exercitationem tempora sunt fuga dolorum nesciunt culpa
-      odio quae provident. Illo totam provident tempore praesentium pariatur
-      possimus vero deserunt blanditiis cum id modi cumque minima nobis unde,
-      soluta libero maxime inventore obcaecati. Voluptatum hic, fugiat
-      reiciendis recusandae dignissimos fuga deserunt. Eos accusamus fugit
-      ratione odio distinctio animi, deserunt nesciunt, atque consequatur
-      officia cupiditate quo tempore velit illo quam hic possimus? Non id
-      distinctio ab veritatis exercitationem laboriosam, deserunt ullam
-      perferendis? Eius iure fugiat a ullam amet ipsa nisi, modi dolores id
-      voluptatibus fuga, nulla laudantium tenetur ex pariatur quae reprehenderit
-      dignissimos dolor dolorum minus quibusdam! Eligendi debitis consequatur
-      illo hic? Dolore soluta illo laborum quisquam cupiditate! Autem asperiores
-      esse voluptatem nesciunt quo debitis dolore et voluptate fugit officia
-      assumenda nostrum neque deleniti ipsa quae maxime, minus dicta dolores,
-      modi quod. Nobis est praesentium, et ipsam ab optio. Magnam ad repellat,
-      sit sunt iusto, enim labore eligendi beatae exercitationem architecto
-      dolore fugiat eius error nemo est non vel minima porro tempore! Nulla sunt
-      voluptas odit. Ipsum, deserunt aut facere eum accusamus numquam, tempora
-      natus eius aliquid reprehenderit quos dicta facilis! Asperiores odio
-      voluptate dolor quidem inventore nihil nostrum dicta doloribus nisi. Nihil
-      illo velit facilis, id aperiam et molestias repellendus, obcaecati non,
-      quod ratione ab saepe eius. Debitis vero aspernatur amet culpa optio
-      blanditiis dolor in adipisci obcaecati! Deserunt, sed? Dolorum. Molestias
-      quisquam praesentium neque ut ad amet consectetur optio iusto explicabo
-      aut minima magnam illum, voluptas facilis laboriosam in eligendi quam
-      fugit enim dolore asperiores? Nostrum minima officia vel eum! Fugit soluta
-      aliquid minima vel facilis aspernatur eum aut qui exercitationem! Fuga
-      perferendis qui dolor consequuntur autem sint unde laboriosam amet
-      repellat cumque assumenda porro nostrum nobis, ut, a alias!
-      <Link href="/">hme</Link>
+    <section id="contactme" className="pp-section pp-scrollable ">
+      <div className="container">
+        <div className={style.data}>
+          <div className={style.text}>
+            <h3>{contact.title}</h3>
+          </div>
+          <div className={style.contact}>
+            <div className={style.contact_info}>
+              <h4>{contact.subtitle}</h4>
+              <p>{contact.description}</p>
+
+              <a href="#" target="_blank">
+                <BsLinkedin />
+              </a>
+            </div>
+            <div className={style.form}>
+              <h4>{contact.form}</h4>
+              <form
+                id="contact-form"
+                onSubmit={(e) => onSubmitForm(e)}
+                ref={form}
+              >
+                <div>
+                  <input
+                    type="text"
+                    name="name"
+                    value={values.name}
+                    placeholder="Nombre *"
+                    onChange={handleOnChange}
+                  />
+                </div>
+                <div>
+                  <div>
+                    <input
+                      type="email"
+                      name="email"
+                      value={values.email}
+                      placeholder="Email *"
+                      onChange={handleOnChange}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    name="subject"
+                    value={values.subject}
+                    placeholder="Asunto *"
+                    onChange={handleOnChange}
+                  />
+                </div>
+                <textarea
+                  name="message"
+                  id=""
+                  cols="30"
+                  rows="10"
+                  value={values.message}
+                  placeholder="Mensaje *"
+                  onChange={handleOnChange}
+                ></textarea>
+                <button className="btn" type="submit">
+                  Enviar mensaje
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

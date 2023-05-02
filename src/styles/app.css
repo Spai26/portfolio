@@ -68,7 +68,7 @@ p {
 }
 
 .container {
-  max-width: 950px;
+  max-width: 100%;
   padding-right: 15px;
   padding-left: 15px;
   margin-right: auto;
@@ -149,5 +149,11 @@ img {
 @media (max-width: 767px) {
   .section {
     padding-bottom: 60px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .container {
+    width: 1140px;
   }
 }

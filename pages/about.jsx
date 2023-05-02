@@ -57,7 +57,7 @@ const About = () => {
             <h3>{experience.title}</h3>
           </div>
           <div className={style.exp_box}>
-            {experience.works.map((work, index) => (
+            {experience.works?.map((work, index) => (
               <div key={index} className={style.box_content}>
                 <div className={style.box_left}>
                   <Image src={work.icon} alt={work.title} />

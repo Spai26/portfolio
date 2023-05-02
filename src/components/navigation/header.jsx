@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Header.module.css";
-import icon from "../assets/flat,128x128,075,t.jpg";
+import icon from "/public/flat,128x128,075,t.jpg";
 import MenuItems from "./itemsNav";
 import { RxHamburgerMenu, RxCross1 } from "react-icons/rx";
 import { socials } from "../utils/data";
@@ -59,6 +59,8 @@ export default function Header() {
             <div className={styles.hl_logo}>
               <div className={styles.img}>
                 <Image
+                  width={180}
+                  height={180}
                   src={icon}
                   alt="me icon"
                   unoptimized={true}

@@ -1,10 +1,9 @@
 import Image from "next/image";
 import RootLayout from "../src/components/layout/Layout";
-import portada from "../src/components/assets/solo-leveling-fi-750x392.jpg";
+import portada from "/public/solo-leveling-fi-750x392.jpg";
 
 import About from "./about";
 import Porfolio from "./portfolio";
-import Services from "./services";
 import Contact from "./contact";
 import styles from "../src/components/pagesStyles/Home.module.css";
 import TypeAnimation from "@/src/components/typeAnimation";
@@ -46,7 +45,6 @@ export default function Home() {
       </section>
       <About />
       <Porfolio />
-      <Services />
       <Contact />
     </RootLayout>
   );

@@ -1,5 +1,5 @@
-import work1 from "../assets/ediciones_lexicom.jpg";
-import work2 from "../assets/aes.png";
+import work1 from "/public/ediciones_lexicom.jpg";
+import work2 from "/public/aes.png";
 
 export const life = {
   name: "sergio avalos",
@@ -29,7 +29,7 @@ export const experience = {
           text: "Brindar soporte técnico nivel 3 por teléfono, conexión remota o presencial en los diferentes puntos de ventas.",
         },
         {
-          text: "Configuración de equipos locales, servidores para el uso de su sistema personal SOFTCOM.",
+          text: "Configuración de equipos locales, servidores para el uso de su sistema personal SOFTCOM. de facturación",
         },
         {
           text: "Desarrollo de migración de proyecto de escritorio SOFTCOM a web utilizando .NET, SQL.",
@@ -67,8 +67,11 @@ export const experience = {
 };
 
 export const contact = {
+  title: "Contact me.",
+  subtitle: "Quieres mejorar tu negocio?",
   description:
-    "Me encantaría tener la oportunidad de contribuir con mi experiencia y habilidades en tu proyecto.",
+    "Me encantaría tener la oportunidad de contribuir con mi experiencia y habilidades en tu proyecto. Puedes obtener más información de mí en mi perfil de LinkedIn. ¡Espero tu contacto!",
+  form: "escribeme",
 };
 
 import { CgGames } from "react-icons/cg";
@@ -87,6 +90,7 @@ import {
   SiNodedotjs,
   SiExpress,
 } from "react-icons/si";
+
 export const porftfolio = {
   title: "my Portfolio.",
   works: [
@@ -108,10 +112,10 @@ export const porftfolio = {
       ],
     },
     {
-      title: "Rick & Mortin",
+      title: "Rick & Morty",
       icon: <GiSpaceship />,
       description:
-        "En este proyecto, se aplicó un SPA, con login básico, renderizado de la API Rick && Mortyn, donde se aplicó filtrados, ordenamientos, lista favoritos, busqueda. Puede ver el resultado en.",
+        "En este proyecto, se aplicó un SPA, con login básico, renderizado de The Rick and Morty API, donde se aplicó filtrados, ordenamientos, lista favoritos, busqueda. Puede ver el resultado en.",
       tols: [
         { icon: <SiJavascript /> },
         { icon: <SiReact /> },
