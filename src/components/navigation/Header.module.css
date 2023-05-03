@@ -154,11 +154,8 @@
   gap: 20px;
 }
 
+.nav_link:hover,
 .active {
-  color: var(--color-secundary-acent);
-}
-
-.nav_link:hover {
   color: var(--color-secundary-acent);
 }
 
