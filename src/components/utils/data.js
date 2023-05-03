@@ -9,34 +9,34 @@ export const navigations = [
   {
     id: 1,
     name: "home",
-    href: "home",
+    href: "#home",
     icon: <AiOutlineHome />,
   },
   {
     id: 2,
     name: "about me",
-    href: "aboutme",
+    href: "#aboutme",
     icon: <AiOutlineFileDone />,
   },
 
   {
     id: 3,
     name: "services",
-    href: "services",
+    href: "#services",
     icon: <AiOutlineFundProjectionScreen />,
   },
 
   {
     id: 4,
     name: "portfolio",
-    href: "porfolio",
+    href: "#portfolio",
     icon: <AiOutlineFolderOpen />,
   },
 
   {
     id: 5,
     name: "contact me",
-    href: "contactme",
+    href: "#contactme",
     icon: <AiOutlineContacts />,
   },
 ];

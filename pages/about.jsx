@@ -17,7 +17,7 @@ import Image from "next/image";
 
 const About = () => {
   return (
-    <section id="about" className="pp-section pp-scrollable section">
+    <section id="aboutme" className="pp-section pp-scrollable section">
       <div className="container">
         <div className={style.data}>
           <div className={style.content_data}>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 const Services = () => {
-  return <section className="services"></section>;
+  return <section id="services" className="services"></section>;
 };
 
 export default Services;
