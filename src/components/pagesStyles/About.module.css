@@ -5,23 +5,257 @@
 
 .content_data {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(400px, 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(500px, 100%), 1fr));
   grid-auto-rows: auto;
   grid-auto-flow: dense;
   align-items: center;
   place-items: center;
   padding-top: 100px;
   border-top: 1px solid var(--color-primary-acent);
+  overflow: hidden;
 }
 
-.image_info {
-  color: var(--color-primary);
+/*galaxy*/
+
+.system {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  transform: scaleX(3);
 }
 
-.earth {
-  font-size: 40px;
+.planet {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transform: scaleX(0.3);
 }
 
+.sun {
+  width: 100px;
+  height: 100px;
+  color: #ebcb8b;
+  transform: scaleX(0.3);
+  border-radius: 50%;
+  position: absolute;
+  box-shadow: 0px 0px 30px 5px #d08770;
+}
+
+.moon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transform: scaleX(0.3);
+  position: absolute;
+  top: -100px;
+  color: white;
+  box-shadow: 0px 0px 30px 5px #f7f7ff;
+}
+
+.satelite {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  transform: scaleX(0.3);
+  position: absolute;
+  color: white;
+  position: absolute;
+  top: -90px;
+  right: -40px;
+}
+
+/*colores*/
+#one {
+  color: #f06529;
+  box-shadow: 0px 0px 20px 5px #e34c26;
+}
+
+#two {
+  color: #264de4;
+  box-shadow: 0px 0px 20px 5px #2965f1;
+}
+
+#tree {
+  color: #61dbfb;
+  box-shadow: 0px 0px 20px 5px #4c768d;
+}
+
+#four {
+  color: #3c873a;
+  box-shadow: 0px 0px 20px 5px #68a063;
+}
+
+#five {
+  color: #f7f7ff;
+}
+
+.rotate {
+  width: 100%;
+  height: 100%;
+  animation: rotate 12s linear infinite;
+  position: absolute;
+}
+
+.content_planet {
+  width: 40px;
+  height: 40px;
+  animation: correct 12s linear infinite;
+  position: absolute;
+}
+
+#two_c {
+  left: 85px;
+}
+
+#tree_c {
+  left: 42.5px;
+  top: 100px;
+}
+
+#four_c {
+  margin-left: 25px;
+}
+
+#five_c {
+  left: 95px;
+  top: 50px;
+}
+
+.planet_index {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+#one_i {
+  animation: hiddenOnePlanet 12s infinite;
+}
+
+#two_i {
+  animation: hiddenTwoPlanet 12s infinite;
+}
+
+#tree_i {
+  animation: hiddenTreePlanet 12s infinite;
+}
+
+#four_i {
+  animation: hiddenFourPlanet 12s infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+@keyframes correct {
+  0% {
+    transform: rotateZ(360deg);
+  }
+  100% {
+    transform: rotateZ(0deg);
+  }
+}
+
+@keyframes hiddenOnePlanet {
+  0% {
+    z-index: -999;
+    transform: scale(0.9);
+  }
+  25% {
+    z-index: -999;
+    transform: scale(1);
+  }
+  50% {
+    z-index: 999;
+    transform: scale(1.3);
+  }
+  75% {
+    z-index: 999;
+    transform: scale(1);
+  }
+  100% {
+    z-index: 999;
+    transform: scale(0.9);
+  }
+}
+
+@keyframes hiddenTwoPlanet {
+  0% {
+    z-index: 999;
+    transform: scale(1);
+  }
+  25% {
+    z-index: -999;
+    transform: scale(1);
+  }
+  50% {
+    z-index: -999;
+    transform: scale(1);
+  }
+  75% {
+    z-index: 999;
+    transform: scale(1);
+  }
+  100% {
+    z-index: 999;
+    transform: scale(1);
+  }
+}
+
+@keyframes hiddenTreePlanet {
+  0% {
+    z-index: 999;
+    transform: scale(1);
+  }
+  25% {
+    z-index: -999;
+    transform: scale(1);
+  }
+  50% {
+    z-index: -999;
+    transform: scale(1);
+  }
+  75% {
+    z-index: 999;
+    transform: scale(1);
+  }
+  100% {
+    z-index: 999;
+    transform: scale(1);
+  }
+}
+
+@keyframes hiddenFourPlanet {
+  0% {
+    z-index: -999;
+    transform: scale(1);
+  }
+  25% {
+    z-index: -999;
+    transform: scale(1);
+  }
+  50% {
+    z-index: 999;
+    transform: scale(1);
+  }
+  75% {
+    z-index: 999;
+    transform: scale(1);
+  }
+  100% {
+    z-index: -999;
+    transform: scale(1);
+  }
+}
+
+.about_info {
+  margin-left: 35px;
+}
 .about_info,
 .exp_info {
   color: var(--color-primary);
@@ -175,6 +409,10 @@
 }
 
 @media (max-width: 767px) {
+  .about_info {
+    margin-left: 0;
+  }
+
   .about_info,
   .exp_info {
     padding-bottom: 25px;

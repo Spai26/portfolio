@@ -11,7 +11,9 @@ import {
   SiNextdotjs,
   SiNodedotjs,
   SiExpress,
+  SiMicrosoftsqlserver,
 } from "react-icons/si";
+import { TbSql } from "react-icons/tb";
 import { experience } from "@/src/components/utils/home";
 import Image from "next/image";
 
@@ -21,19 +23,46 @@ const About = () => {
       <div className="container">
         <div className={style.data}>
           <div className={style.content_data}>
-            <div className={style.image_info}>
-              <div className={style.earth}>
-                <SiReact />
-                <SiPhp />
-                <FaHtml5 />
-                <FaCss3Alt />
-                <SiJavascript />
-                <SiMongodb />
-                <SiPostgresql />
-                <SiMysql />
-                <SiNextdotjs />
-                <SiNodedotjs />
-                <SiExpress />
+            <div className={style.system}>
+              <SiJavascript className={style.sun} />
+              <SiNextdotjs className={style.moon} />
+              <TbSql className={style.satelite} />
+
+              <div className={style.planet_index} id={style.one_i}>
+                <div className={style.rotate}>
+                  <div className={style.content_planet} id={style.one_c}>
+                    <FaHtml5 className={style.planet} id={style.one} />
+                  </div>
+                </div>
+              </div>
+              <div className={style.planet_index} id={style.two_i}>
+                <div className={style.rotate}>
+                  <div className={style.content_planet} id={style.two_c}>
+                    <FaCss3Alt className={style.planet} id={style.two} />
+                  </div>
+                </div>
+              </div>
+              <div className={style.planet_index} id={style.tree_i}>
+                <div className={style.rotate}>
+                  <div className={style.content_planet} id={style.tree_c}>
+                    <SiReact className={style.planet} id={style.tree} />
+                  </div>
+                </div>
+              </div>
+              <div className={style.planet_index} id={style.four_i}>
+                <div className={style.rotate}>
+                  <div className={style.content_planet} id={style.four_c}>
+                    <SiNodedotjs className={style.planet} id={style.four} />
+                  </div>
+                </div>
+              </div>
+
+              <div className={style.planet_index} id={style.five_i}>
+                <div className={style.rotate}>
+                  <div className={style.content_planet} id={style.five_c}>
+                    <SiExpress className={style.planet} id={style.five} />
+                  </div>
+                </div>
               </div>
             </div>
             <div className={style.about_info}>
