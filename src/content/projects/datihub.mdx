@@ -1,0 +1,99 @@
+---
+title: "DatiHub Backend"
+description: "Sistema de automatización de conversaciones con IA generativa, WhatsApp y soporte multicanal. En producción con miles de usuarios."
+stack: ["TypeScript", "Node.js", "PostgreSQL", "Redis", "AWS Bedrock", "Clean Architecture", "CQRS", "WhatsApp"]
+year: 2024
+featured: true
+order: 1
+repoUrl: "https://github.com/sergioavalos/datihub"
+demoUrl: "https://datihub.com"
+---
+
+## El problema
+
+DatiHub necesitaba un sistema que automatizara conversaciones con clientes a través de WhatsApp y WebChat, integrando IA generativa para respuestas inteligentes y soporte multi-canal sin perder contexto entre interacciones.
+
+## Mi enfoque
+
+Implementé una **Clean Architecture** con **CQRS** para separar claramente commands (acciones del usuario) de queries (lecturas). Esto permitió escalar independientemente según el tráfico real — los comandos de mensaje van por un bus de eventos, las queries usan PostgreSQL con Prisma.
+
+### Arquitectura de flujos de conversación
+
+El sistema de flujos usa un **Builder Pattern** que permite crear conversaciones condicionales sin hardcodear lógica. Cada paso puede ser:
+
+- Mensaje simple
+- Condición based en contexto del usuario
+- Integración con IA (RAG + function calling)
+- Auto-advance con delays configurables
+
+```typescript
+const flow = new ConversationFlow('welcome')
+  .addStep({ type: 'message', content: '¡Hola! ¿En qué te ayudo?' })
+  .addStep({
+    type: 'condition',
+    check: (ctx) => ctx.intent === 'support',
+    then: 'supportFlow',
+    else: 'salesFlow'
+  })
+  .addStep({
+    type: 'ai',
+    model: 'claude-3-5',
+    system: 'Eres un asesor helpful...',
+    useRag: true,
+    knowledgeBase: 'product-info'
+  });
+```
+
+### Integración WhatsApp Cloud API
+
+Implementé un adapter que maneja:
+
+- Texto, imágenes, videos, documentos
+- Ubicaciones y reacciones
+- Webhooks para receipts y status updates
+- Reintentos automáticos con exponential backoff
+
+### IA generativa con RAG
+
+AWS Bedrock (Claude 3.5 Sonnet) para:
+
+- Clasificar intents del usuario
+- Generar respuestas contextuales usando Knowledge Base
+- **Function calling** para acciones (agendar cita, consultar stock)
+- Streaming para respuestas largas
+
+## Métricas
+
+- **Menos de 50ms** latency promedio en respuesta de IA
+- **99.9% uptime** en 8 meses de producción
+- **~50K conversaciones** procesadas mensualmente
+- **30% reducción** en tickets de soporte manual
+
+## Stack detallado
+
+| Capa | Tecnología |
+|------|------------|
+| Lenguaje | TypeScript (strict mode) |
+| Runtime | Node.js 20 LTS |
+| API | Express 5 + Middlewares |
+| Arquitectura | Clean + DDD + CQRS |
+| Database | PostgreSQL 15 + Prisma |
+| Cache | Redis (pub/sub + cache) |
+| Queue | PGMQ (Postgres Message Queue) |
+| IA | AWS Bedrock (Claude 3.5) |
+| Hosting | AWS EC2 + RDS |
+| Testing | Vitest + Integration tests |
+
+## Decisiones técnicas
+
+**¿Por qué PostgreSQL + PGMQ en vez de Redis Streams?**
+
+La queue persistente era importante para recuperación ante fallos. Si el worker se cae mid-proceso, los mensajes no se pierden. PGMQ sobre Postgres dio lo mejor de ambos mundos — persistencia + operaciones atómicas.
+
+**¿Por qué nolangchain?**
+
+LangChain agrega overhead innecesario para casos de uso definidos. La integración directa con Bedrock + function calling fue más controlable y performante.
+
+**CQRS desde día uno**
+
+El volumen de lecturas (consultar estado de conversación, historial) es 10x mayor que writes. CQRS permitió optimizar queries sin complicar el modelo de dominio.

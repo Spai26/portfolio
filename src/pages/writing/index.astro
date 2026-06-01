@@ -1,0 +1,174 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { formatDate, readingTime } from '../../lib/utils';
+
+const allPosts = await getCollection('writing', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<Base
+  title="Writing"
+  description="Artículos sobre arquitectura de software, backend y desarrollo web."
+>
+  <section class="page-header">
+    <div class="container">
+      <h1 class="page-title">Writing</h1>
+      <p class="page-subtitle">
+        Artículos sobre arquitectura, backend y cosas que voy aprendiendo.
+      </p>
+    </div>
+  </section>
+
+  <section class="posts-section">
+    <div class="container">
+      <div class="posts-list">
+        {posts.map(post => (
+          <article class="post-item">
+            <a href={`/writing/${post.slug}`} class="post-link">
+              <header class="post-header">
+                <time class="post-date" datetime={post.data.date.toISOString()}>
+                  {formatDate(post.data.date)}
+                </time>
+                <span class="post-reading">{readingTime(post.body)}</span>
+              </header>
+              <h2 class="post-title">{post.data.title}</h2>
+              <p class="post-description">{post.data.description}</p>
+              {post.data.tags && (
+                <div class="post-tags">
+                  {post.data.tags.map(tag => (
+                    <span class="post-tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+            </a>
+          </article>
+        ))}
+
+        {posts.length === 0 && (
+          <div class="empty-state">
+            <p class="empty-text">No hay posts todavía.</p>
+            <p class="empty-hint">Próximamente artículos sobre arquitectura y backend.</p>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-header {
+    padding-block: var(--space-16) var(--space-12);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-title {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    margin-bottom: var(--space-3);
+  }
+
+  .page-subtitle {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: 480px;
+  }
+
+  .posts-section {
+    padding-block: var(--space-12);
+  }
+
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .post-item {
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    transition: all var(--transition-fast);
+  }
+
+  .post-item:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  .post-link {
+    display: block;
+    padding: var(--space-6);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .post-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-2);
+  }
+
+  .post-date {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-accent);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .post-reading {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .post-title {
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+    line-height: var(--leading-tight);
+  }
+
+  .post-description {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-3);
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .post-tag {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--space-24);
+  }
+
+  .empty-text {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+  }
+
+  .empty-hint {
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+  }
+</style>

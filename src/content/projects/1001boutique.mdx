@@ -1,0 +1,75 @@
+---
+title: "1001Boutique API"
+description: "Backend GraphQL para e-commerce de moda. Apollo Server + MongoDB + JWT authentication."
+stack: ["TypeScript", "GraphQL", "Apollo", "MongoDB", "JWT", "Node.js"]
+year: 2023
+featured: false
+order: 2
+repoUrl: "https://github.com/sergioavalos/1001boutique-api"
+---
+
+## Contexto
+
+1001Boutique es un e-commerce de moda que necesitaba un backend flexible para manejar catálogos complejos con variantes de producto, inventario en tiempo real y un checkout que soportara múltiples métodos de pago.
+
+## GraphQL como API layer
+
+Elegí GraphQL sobre REST por la naturaleza del frontend — un dashboard admin y una app móvil que necesitaban exactamente los datos de cada view, sin overfetching.
+
+### Schema design
+
+```graphql
+type Product {
+  id: ID!
+  name: String!
+  description: String
+  basePrice: Price!
+  variants: [Variant!]!
+  inventory: InventoryStatus!
+  categories: [Category!]!
+}
+
+type Variant {
+  id: ID!
+  sku: String!
+  size: String
+  color: String
+  priceModifier: Int!
+  images: [Image!]!
+}
+
+type Query {
+  products(
+    category: String
+    search: String
+    limit: Int
+    offset: Int
+  ): ProductConnection!
+  product(id: ID!): Product
+  cart(userId: ID!): Cart
+}
+```
+
+### Authentication con JWT
+
+- Access tokens de corta duración (15min)
+- Refresh tokens en httpOnly cookies
+- Permisos por rol (admin, user, guest)
+
+## Stack
+
+| Capa | Tecnología |
+|------|------------|
+| API | Apollo Server 4 |
+| Database | MongoDB (mongoose) |
+| Auth | JWT + bcrypt |
+| Validation | Zod |
+| Testing | Vitest |
+
+## Lo que aprendí
+
+**N+1 queries** fue el primer problema que apareció. Resolverlo con DataLoader fue directo pero aprendí que GraphQL sin conocimiento de dataloaders es una trampa.
+
+**Denormalizar o no**
+
+El inventario cambia constantemente. Empecé con datos normalizados pero terminé replicando el stock en Redis para queries de disponibilidad sin golpear Mongo constantemente.

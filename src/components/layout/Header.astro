@@ -1,0 +1,191 @@
+---
+const pathname = Astro.url.pathname;
+const isActive = (path: string) => {
+  if (path === '/') return pathname === '/';
+  return pathname.startsWith(path);
+};
+
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Proyectos' },
+  { href: '/about', label: 'About' },
+  { href: '/writing', label: 'Writing' },
+];
+---
+
+<header class="site-header">
+  <a href="#main-content" class="skip-link">Saltar al contenido</a>
+
+  <nav class="nav container" aria-label="Main navigation">
+    <a href="/" class="nav-logo" aria-label="Sergio Ávalos — Home">
+      <span class="logo-text">SA</span>
+    </a>
+
+    <ul class="nav-links" role="list">
+      {navLinks.map(link => (
+        <li>
+          <a
+            href={link.href}
+            class:list={['nav-link', { active: isActive(link.href) }]}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+      <li>
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-label="Toggle dark/light theme"
+          title="Toggle theme"
+        >
+          <!-- Sun icon (shown in dark mode) -->
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <!-- Moon icon (shown in light mode) -->
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+
+  .nav-logo {
+    text-decoration: none;
+  }
+
+  .logo-text {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    letter-spacing: var(--tracking-wider);
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all var(--transition-fast);
+  }
+
+  .nav-logo:hover .logo-text {
+    background: var(--color-glow);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    list-style: none;
+  }
+
+  .nav-link {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    padding-block: var(--space-2);
+  }
+
+  .nav-link:hover {
+    color: var(--color-accent);
+  }
+
+  .nav-link.active {
+    color: var(--color-accent);
+  }
+
+  .nav-link.active::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: var(--color-accent);
+    margin-top: 2px;
+  }
+
+  @media (max-width: 640px) {
+    .nav-links {
+      gap: var(--space-4);
+    }
+  }
+
+  /* ── Theme Toggle ──────────────────────────────────── */
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
+    padding: 0;
+  }
+
+  .theme-toggle:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: var(--color-glow);
+  }
+
+  .icon-sun,
+  .icon-moon {
+    display: none;
+  }
+
+  /* Dark mode: show sun (to switch to light) */
+  [data-theme="dark"] .icon-sun,
+  :root:not([data-theme]) .icon-sun {
+    display: block;
+  }
+
+  /* Light mode: show moon (to switch to dark) */
+  [data-theme="light"] .icon-moon {
+    display: block;
+  }
+</style>
+
+<script>
+  function toggleTheme() {
+    const html = document.documentElement;
+    const current = html.getAttribute('data-theme');
+    const next = current === 'light' ? 'dark' : 'light';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+
+  document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+</script>

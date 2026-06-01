@@ -1,0 +1,53 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonicalUrl?: string;
+}
+
+const {
+  title,
+  description = 'Portfolio de Sergio Ávalos — Backend Developer. Lima, Perú.',
+  image,
+  canonicalUrl
+} = Astro.props;
+
+const siteUrl = 'https://sergioavalos.dev';
+const resolvedCanonical = canonicalUrl ?? new URL(Astro.url.pathname, siteUrl).href;
+const resolvedImage = image ? new URL(image, siteUrl).href : undefined;
+---
+
+<!-- Charset & Viewport -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Primary Meta -->
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={resolvedCanonical} />
+
+<!-- Favicon (inline SVG as data URI) -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖥️</text></svg>" />
+
+<!-- Open Graph -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={resolvedCanonical} />
+{resolvedImage && <meta property="og:image" content={resolvedImage} />}
+<meta property="og:site_name" content="Sergio Ávalos" />
+
+<!-- Twitter/X Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{resolvedImage && <meta name="twitter:image" content={resolvedImage} />}
+
+<!-- Sitemap -->
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- Fonts preconnect -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet" />

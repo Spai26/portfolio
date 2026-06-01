@@ -1,0 +1,356 @@
+/* ============================================================
+   Global CSS — Design Tokens + Reset + Base
+   ============================================================ */
+
+/* ── Google Fonts ─────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+/* ── All Design Tokens — Dark Mode (default, Vapordrive) ─── */
+:root {
+  /* Font families */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Type Scale (1.25 ratio) */
+  --text-xs:   0.75rem;
+  --text-sm:   0.875rem;
+  --text-base: 1rem;
+  --text-lg:   1.25rem;
+  --text-xl:   1.563rem;
+  --text-2xl:  1.953rem;
+  --text-3xl:  2.441rem;
+  --text-4xl:  3.052rem;
+
+  /* Line heights */
+  --leading-tight:  1.2;
+  --leading-normal: 1.6;
+  --leading-loose:  1.8;
+
+  /* Letter spacing */
+  --tracking-tight:  -0.02em;
+  --tracking-normal:  0em;
+  --tracking-wide:    0.08em;
+  --tracking-wider:   0.15em;
+  --tracking-widest:  0.25em;
+
+  /* Spacing */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  /* Layout */
+  --max-width:      1100px;
+  --content-width:  680px;
+  --gutter:         clamp(1rem, 5vw, 2rem);
+
+  /* Transitions */
+  --transition-fast:   0.12s ease;
+  --transition-normal: 0.20s ease;
+
+  /* Colors — Dark (Vapordrive) */
+  --color-bg:          #0D1117;
+  --color-bg-subtle:   #111820;
+  --color-surface:     #16212E;
+
+  --color-text:        #F2EDE4;
+  --color-text-muted:  #C8C3BB;
+  --color-text-subtle: #7A7870;
+
+  --color-border:       rgba(45, 138, 126, 0.30);
+  --color-border-strong: rgba(45, 138, 126, 0.50);
+
+  --color-glow:        rgba(91, 191, 181, 0.10);
+  --color-glow-strong: rgba(91, 191, 181, 0.20);
+
+  /* Accent — Vapordrive Teal */
+  --color-accent:      #2D8A7E;
+  --color-accent-mid:  #3FA89B;
+  --color-accent-light:#5BBFB5;
+  --color-accent-pale: #A8E0DB;
+}
+
+/* ── Light Mode Override (manual toggle via data-theme) ── */
+[data-theme="light"] {
+  --color-bg:          #FAFAF9;
+  --color-bg-subtle:   #F4F4F2;
+  --color-surface:     #FFFFFF;
+
+  --color-text:        #111110;
+  --color-text-muted:  #6F6E6B;
+  --color-text-subtle: #A8A29E;
+
+  --color-border:       rgba(0, 0, 0, 0.08);
+  --color-border-strong: rgba(0, 0, 0, 0.15);
+
+  --color-glow:        rgba(45, 138, 126, 0.12);
+  --color-glow-strong: rgba(45, 138, 126, 0.25);
+}
+
+/* ── Dark Mode Explicit (data-theme override) ── */
+[data-theme="dark"] {
+  --color-bg:          #0D1117;
+  --color-bg-subtle:   #111820;
+  --color-surface:     #16212E;
+
+  --color-text:        #F2EDE4;
+  --color-text-muted:  #C8C3BB;
+  --color-text-subtle: #7A7870;
+
+  --color-border:       rgba(45, 138, 126, 0.30);
+  --color-border-strong: rgba(45, 138, 126, 0.50);
+
+  --color-glow:        rgba(91, 191, 181, 0.10);
+  --color-glow-strong: rgba(91, 191, 181, 0.20);
+}
+
+/* ── System preference fallback (no JS / no saved preference) ── */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --color-bg:          #FAFAF9;
+    --color-bg-subtle:   #F4F4F2;
+    --color-surface:     #FFFFFF;
+
+    --color-text:        #111110;
+    --color-text-muted:  #6F6E6B;
+    --color-text-subtle: #A8A29E;
+
+    --color-border:       rgba(0, 0, 0, 0.08);
+    --color-border-strong: rgba(0, 0, 0, 0.15);
+
+    --color-glow:        rgba(45, 138, 126, 0.12);
+    --color-glow-strong: rgba(45, 138, 126, 0.25);
+  }
+}
+
+/* ── Reset ────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: var(--leading-normal);
+  min-height: 100vh;
+}
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+input, button, textarea, select {
+  font: inherit;
+}
+
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+/* ── Layout ──────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.prose {
+  max-width: var(--content-width);
+}
+
+/* ── Skip Link ────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  background: var(--color-accent);
+  color: #fff;
+  padding: var(--space-2) var(--space-4);
+  border-radius: 0 0 4px 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  z-index: 9999;
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ── Focus ────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ── Selection ────────────────────────────────────────────── */
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* ── Links ────────────────────────────────────────────────── */
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-accent-light);
+}
+
+/* ── Reduced Motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ── Typography Utilities ───────────────────────────────── */
+.font-sans { font-family: var(--font-sans); }
+.font-mono { font-family: var(--font-mono); }
+
+.text-xs   { font-size: var(--text-xs); }
+.text-sm   { font-size: var(--text-sm); }
+.text-base { font-size: var(--text-base); }
+.text-lg   { font-size: var(--text-lg); }
+.text-xl   { font-size: var(--text-xl); }
+.text-2xl  { font-size: var(--text-2xl); }
+.text-3xl  { font-size: var(--text-3xl); }
+.text-4xl  { font-size: var(--text-4xl); }
+
+.text       { color: var(--color-text); }
+.text-muted { color: var(--color-text-muted); }
+.text-subtle{ color: var(--color-text-subtle); }
+.text-accent{ color: var(--color-accent); }
+
+.font-normal   { font-weight: 400; }
+.font-medium   { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold     { font-weight: 700; }
+
+.tracking-tight  { letter-spacing: var(--tracking-tight); }
+.tracking-wide   { letter-spacing: var(--tracking-wide); }
+.tracking-wider  { letter-spacing: var(--tracking-wider); }
+.tracking-widest{ letter-spacing: var(--tracking-widest); }
+
+.leading-tight  { line-height: var(--leading-tight); }
+.leading-normal { line-height: var(--leading-normal); }
+.leading-loose  { line-height: var(--leading-loose); }
+
+.uppercase { text-transform: uppercase; }
+.capitalize{ text-transform: capitalize; }
+
+/* ── Headings ─────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  line-height: var(--leading-tight);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+h1 { font-size: var(--text-4xl); font-weight: 700; }
+h2 { font-size: var(--text-3xl); }
+h3 { font-size: var(--text-2xl); }
+h4 { font-size: var(--text-xl); }
+h5 { font-size: var(--text-lg); }
+h6 { font-size: var(--text-base); }
+
+/* ── Paragraph ────────────────────────────────────────────── */
+p {
+  line-height: var(--leading-normal);
+  color: var(--color-text-muted);
+}
+
+p + p {
+  margin-top: var(--space-4);
+}
+
+/* ── Code ─────────────────────────────────────────────────── */
+code, pre {
+  font-family: var(--font-mono);
+}
+
+code {
+  font-size: 0.875em;
+  background: var(--color-bg-subtle);
+  padding: 0.125em 0.375em;
+  border-radius: 3px;
+  border: 1px solid var(--color-border);
+}
+
+pre {
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: var(--space-4);
+  overflow-x: auto;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+}
+
+/* ── Lists ────────────────────────────────────────────────── */
+ul, ol {
+  padding-left: var(--space-6);
+  color: var(--color-text-muted);
+}
+
+li {
+  margin-block: var(--space-2);
+}
+
+li::marker {
+  color: var(--color-accent);
+}
+
+/* ── Blockquote ──────────────────────────────────────────── */
+blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding-left: var(--space-4);
+  margin-inline: 0;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* ── Horizontal Rule ─────────────────────────────────────── */
+hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin-block: var(--space-8);
+}
+
+/* ── Small ────────────────────────────────────────────────── */
+small {
+  font-size: var(--text-sm);
+  color: var(--color-text-subtle);
+}
