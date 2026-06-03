@@ -13,7 +13,7 @@ const {
   canonicalUrl
 } = Astro.props;
 
-const siteUrl = 'https://sergioavalos.dev';
+const siteUrl = 'https://sergioavalosdev.netlify.app';
 const resolvedCanonical = canonicalUrl ?? new URL(Astro.url.pathname, siteUrl).href;
 const resolvedImage = image ? new URL(image, siteUrl).href : undefined;
 ---

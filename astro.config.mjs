@@ -3,7 +3,7 @@ import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 
 export default defineConfig({
-  site: 'https://sergioavalos.dev',
+  site: 'https://sergioavalosdev.netlify.app',
   output: 'static',
   build: {
     format: 'file'

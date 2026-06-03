@@ -31,6 +31,7 @@ const projects = allProjects.sort((a, b) => b.data.year - a.data.year);
             year={project.data.year}
             href={`/projects/${project.slug}`}
             featured={project.data.featured}
+            repoUrl={project.data.repoUrl}
           />
         ))}
       </div>
