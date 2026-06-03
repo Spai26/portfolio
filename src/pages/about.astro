@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 
 <Base
   title="About"
-  description="Backend Developer con experiencia en Clean Architecture, DDD, CQRS, TypeScript y Node.js. Lidero el backend de DatiHub."
+  description="Backend Developer con experiencia en Clean Architecture, DDD, CQRS, TypeScript y Node.js. Estudiante de Ingeniería de Sistemas."
 >
   <article class="about-page">
     <header class="about-header">
@@ -18,15 +18,19 @@ import Base from '../layouts/Base.astro';
         <section class="bio-section">
           <h2>Quién soy</h2>
           <p>
-            Me gusta construir sistemas. Sistemas que funcionan, que escalan,
-            que son eficientes. No estudié en universidad — aprendí por mi cuenta,
-            y lo veo como una ventaja: nadie me enseñó atajos, así que aprendí
-            a hacer las cosas bien desde el principio.
+            Construyo sistemas que funcionan en producción. Backend con Node.js y
+            TypeScript, aplicando Clean Architecture con DDD y CQRS donde tiene
+            sentido — no por moda, porque funciona.
           </p>
           <p>
-            Lidero el backend de <strong>DatiHub</strong>, sistema en producción
-            con miles de usuarios. Clean Architecture + DDD + CQRS.
-            No porque sí, porque funciona.
+            Lideré la reestructuración del backend de <strong>DatiHub</strong>,
+            armé la arquitectura de <strong>Clostech</strong> desde cero, y llevé
+            mi primer proyecto (<strong>AES</strong>) a producción. Estoy metido
+            en observabilidad, performance y concurrencia.
+          </p>
+          <p>
+            Actualmente cursando <strong>Ingeniería de Sistemas</strong>,
+            combinando años de experiencia práctica con la teoría formal.
           </p>
         </section>
 
@@ -38,7 +42,7 @@ import Base from '../layouts/Base.astro';
               <h3 class="timeline-title">DatiHub</h3>
               <p class="timeline-role">Backend Lead</p>
               <p class="timeline-desc">
-                Arquitectura, integraciones CRM, IA con AWS Bedrock, WhatsApp Cloud API.
+                Arquitectura, integraciones CRM, WhatsApp Cloud API. Clean Architecture + CQRS.
                 Sistema en producción con miles de usuarios reales.
               </p>
             </div>
@@ -55,38 +59,22 @@ import Base from '../layouts/Base.astro';
 
         <section class="bio-section">
           <h2>Stack técnico</h2>
-          <div class="stack-grid">
-            <div class="stack-item">
-              <span class="stack-label">Lenguaje</span>
-              <span class="stack-value">TypeScript</span>
+          <div class="stack-table">
+            <div class="stack-row">
+              <span class="stack-level">Producción</span>
+              <span class="stack-tech">Node.js, TypeScript, Express, Clean Architecture, DDD, CQRS, PostgreSQL, Prisma, Redis</span>
             </div>
-            <div class="stack-item">
-              <span class="stack-label">Runtime</span>
-              <span class="stack-value">Node.js 20+</span>
+            <div class="stack-row">
+              <span class="stack-level">Focus actual</span>
+              <span class="stack-tech">Observabilidad (Grafana/Prometheus), Stress testing, Optimización de queries, Concurrencia</span>
             </div>
-            <div class="stack-item">
-              <span class="stack-label">Framework</span>
-              <span class="stack-value">Express / Astro</span>
+            <div class="stack-row">
+              <span class="stack-level">Utilizado en proyectos</span>
+              <span class="stack-tech">React, GraphQL, MongoDB, Docker, AWS (EC2, RDS), JWT, Zod, Cloudinary, Stripe, Mercado Pago</span>
             </div>
-            <div class="stack-item">
-              <span class="stack-label">Arquitectura</span>
-              <span class="stack-value">Clean + DDD + CQRS</span>
-            </div>
-            <div class="stack-item">
-              <span class="stack-label">Database</span>
-              <span class="stack-value">PostgreSQL + Prisma</span>
-            </div>
-            <div class="stack-item">
-              <span class="stack-label">Cache/Queue</span>
-              <span class="stack-value">Redis + PGMQ</span>
-            </div>
-            <div class="stack-item">
-              <span class="stack-label">Cloud</span>
-              <span class="stack-value">AWS (Bedrock, EC2, RDS)</span>
-            </div>
-            <div class="stack-item">
-              <span class="stack-label">Testing</span>
-              <span class="stack-value">Vitest</span>
+            <div class="stack-row">
+              <span class="stack-level">Aprendiendo</span>
+              <span class="stack-tech">Go</span>
             </div>
           </div>
         </section>
@@ -109,8 +97,8 @@ import Base from '../layouts/Base.astro';
           <p>¿Buscás alguien que construya backend de verdad?</p>
           <div class="contact-links">
             <a href="mailto:sergioai.si93@gmail.com" class="contact-btn">Escríbeme</a>
-            <a href="https://linkedin.com/in/sergioavalos" class="contact-link" target="_blank" rel="noopener">LinkedIn</a>
-            <a href="https://github.com/sergioavalos" class="contact-link" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://www.linkedin.com/in/sergioai93/" class="contact-link" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="https://github.com/Spai26" class="contact-link" target="_blank" rel="noopener">GitHub</a>
           </div>
         </section>
       </div>
@@ -186,33 +174,35 @@ import Base from '../layouts/Base.astro';
     margin: 0;
   }
 
-  .stack-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  .stack-table {
+    display: flex;
+    flex-direction: column;
     gap: var(--space-2);
   }
 
-  .stack-item {
+  .stack-row {
     display: flex;
-    justify-content: space-between;
+    gap: var(--space-4);
     padding: var(--space-3) var(--space-4);
     background: var(--color-bg-subtle);
     border: 1px solid var(--color-border);
     border-radius: 6px;
   }
 
-  .stack-label {
+  .stack-level {
     font-family: var(--font-mono);
     font-size: var(--text-xs);
-    color: var(--color-text-subtle);
+    color: var(--color-accent);
     letter-spacing: var(--tracking-wide);
+    min-width: 120px;
+    font-weight: 600;
+    text-transform: uppercase;
   }
 
-  .stack-value {
+  .stack-tech {
     font-size: var(--text-sm);
     color: var(--color-text);
-    font-weight: 500;
-    text-align: right;
+    line-height: var(--leading-normal);
   }
 
   .contact-section p {

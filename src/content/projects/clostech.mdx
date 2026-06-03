@@ -1,0 +1,40 @@
+---
+title: "Clostech — Backend Architecture"
+description: "Arquitectura backend desde cero para startup de e-commerce. Clean Architecture + DDD con multi-cloud deployment."
+stack: ["TypeScript", "Node.js", "Express", "PostgreSQL", "TypeORM", "Clean Architecture", "DDD", "Docker", "AWS", "Azure", "Stripe", "Mercado Pago"]
+year: 2023
+featured: false
+order: 2
+---
+
+## El contexto
+
+Clostech comenzó como una startup que buscaba resolver el problema de no saber cómo queda una prenda antes de comprarla online. Estuve los primeros 6–8 meses armando la arquitectura del backend.
+
+## Mi aporte
+
+### Arquitectura desde cero
+
+Diseñé la estructura completa aplicando Clean Architecture con DDD táctico:
+
+- **Dominio puro:** entidades de negocio sin dependencias de frameworks ni ORMs
+- **Repositorios abstractos + Datasources:** doble capa de abstracción para cambiar ORM sin tocar el dominio
+- **Inyección de dependencias manual:** composición explícita en rutas, sin contenedores mágicos
+- **Errores jerárquicos:** operacionales vs programa, con respuesta JSON consistente
+
+### Integraciones
+
+- Pagos: Stripe y Mercado Pago
+- Auth: JWT + refresh tokens + httpOnly cookies
+- Validación: Zod como middleware reutilizable
+- Emails: Nodemailer + Handlebars
+
+### Infraestructura y CI/CD
+
+- Docker multi-stage sobre Alpine
+- CI/CD multi-cloud: AWS ECS Fargate + Azure App Service
+- Pipelines en GitHub Actions, Azure DevOps y Bitbucket Pipelines con OIDC
+
+## Lo que aprendí
+
+Clean Architecture académica tiene overhead real. Empecé con la versión clásica y terminé simplificando hacia DDD pragmático — menos capas, más legibilidad. Esa experiencia la apliqué después en DatiHub.

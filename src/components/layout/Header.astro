@@ -9,7 +9,7 @@ const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/projects', label: 'Proyectos' },
   { href: '/about', label: 'About' },
-  { href: '/writing', label: 'Writing' },
+//  { href: '/writing', label: 'Writing' },
 ];
 ---
 
@@ -163,18 +163,8 @@ const navLinks = [
 
   .icon-sun,
   .icon-moon {
-    display: none;
-  }
-
-  /* Dark mode: show sun (to switch to light) */
-  [data-theme="dark"] .icon-sun,
-  :root:not([data-theme]) .icon-sun {
-    display: block;
-  }
-
-  /* Light mode: show moon (to switch to dark) */
-  [data-theme="light"] .icon-moon {
-    display: block;
+    width: 16px;
+    height: 16px;
   }
 </style>
 

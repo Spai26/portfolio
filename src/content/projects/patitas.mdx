@@ -1,16 +1,16 @@
 ---
-title: "Patitas Deploy"
-description: "Plataforma para adopción de mascotas. Sistema de matchmaking entre adoptantes y refugio."
-stack: ["TypeScript", "React", "PostgreSQL", "Node.js", "Express"]
+title: "Patitas — Adopción de Mascotas"
+description: "Plataforma full-stack para adopción de mascotas con sistema de matchmaking. Estuvo en producción."
+stack: ["TypeScript", "React", "Vite", "Express", "PostgreSQL", "Prisma", "JWT"]
 year: 2023
 featured: false
-order: 3
-repoUrl: "https://github.com/sergioavalos/patitas"
+order: 4
+repoUrl: "https://github.com/Spai26/patitas"
 ---
 
-## Idea
+## El proyecto
 
-Patitas conecta personas que quieren adoptar con refugios que tienen mascotas disponibles. El matching no es aleatorio — el sistemaarma perfiles de adoptante y sugiere mascotas compatibles según estilo de vida, experiencia previa, tipo de vivienda.
+Plataforma que conecta adoptantes con refugios. El diferencial era un sistema de matching basado en estilo de vida, vivienda y experiencia del adoptante.
 
 ## Sistema de matching
 
@@ -24,7 +24,6 @@ interface MatchingCriteria {
   otherPets: Pet[];
 }
 
-// Score de compatibilidad 0-100
 function calculateCompatibility(
   adopter: MatchingCriteria,
   pet: PetProfile
@@ -49,8 +48,6 @@ function calculateCompatibility(
 | Auth | JWT |
 | Hosting | Railway |
 
-## Qué fue desafiante
+## Lo que aprendí
 
-El matching no es ciencia exacta. Trabajar con las organizaciones de refugio para definir los perfiles de mascotas fue un proceso colaborativo — ajustamos los criterios varias veces basándonos en feedback real.
-
-También fue el primer proyecto full-stack que hice completamente solo, lo cual me enseñó que la separación frontend/backend es más difícil de mantener cuando sos el único que toca todo.
+Fue mi primer full-stack completo solo y aprendí que mantener la separación frontend/backend es más difícil cuando sos la única persona tocando todo. También que el matching no es ciencia exacta — requirió iterar con feedback real de refugios.
