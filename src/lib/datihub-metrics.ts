@@ -1,6 +1,3 @@
-import { readFileSync } from 'fs';
-import { resolve } from 'path';
-
 export interface DatiHubMetrics {
   activeConversations: number;
   conversationsStarted: number;
@@ -31,44 +28,31 @@ function parseServiceMetric(text: string, serviceName: string): number {
   return match ? parseInt(match[1], 10) : 0;
 }
 
-export async function fetchDatiHubMetrics(): Promise<DatiHubMetrics> {
-  // Load .env manually
-  const envPath = resolve(process.cwd(), '.env');
-  const envContent = readFileSync(envPath, 'utf-8');
-  const env: Record<string, string> = {};
-  for (const line of envContent.split('\n')) {
-    const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith('#')) continue;
-    const [key, ...valueParts] = trimmed.split('=');
-    let value = valueParts.join('=').trim();
-    if ((value.startsWith('"') && value.endsWith('"')) || 
-        (value.startsWith("'") && value.endsWith("'"))) {
-      value = value.slice(1, -1);
-    }
-    env[key.trim()] = value;
-  }
+function emptyMetrics(): DatiHubMetrics {
+  return {
+    activeConversations: 0,
+    conversationsStarted: 0,
+    conversationsCompleted: 0,
+    conversationsAbandoned: 0,
+    activeFlows: 0,
+    services: { whatsapp: 0, ai: 0, database: 0, redis: 0, email: 0, webchat: 0 },
+    httpRequestsActive: 0,
+    socketConnections: 0,
+  };
+}
 
-  const endpoint = env.datihub_api || env.DATIHUB_API;
+export async function fetchDatiHubMetrics(): Promise<DatiHubMetrics> {
+  const endpoint = import.meta.env.DATIHUB_API;
   
   if (!endpoint) {
-    console.warn('⚠️ DATIHUB_API not found in .env, returning mock data');
-    return {
-      activeConversations: 0,
-      conversationsStarted: 0,
-      conversationsCompleted: 0,
-      conversationsAbandoned: 0,
-      activeFlows: 0,
-      services: { whatsapp: 0, ai: 0, database: 0, redis: 0, email: 0, webchat: 0 },
-      httpRequestsActive: 0,
-      socketConnections: 0,
-    };
+    return emptyMetrics();
   }
 
   try {
     const response = await fetch(endpoint);
     
     if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      return emptyMetrics();
     }
 
     const text = await response.text();
@@ -90,17 +74,7 @@ export async function fetchDatiHubMetrics(): Promise<DatiHubMetrics> {
       httpRequestsActive: parsePrometheusMetric(text, 'http_requests_active'),
       socketConnections: parsePrometheusMetric(text, 'socket_connections_current'),
     };
-  } catch (error) {
-    console.error('❌ Error fetching DatiHub metrics:', error);
-    return {
-      activeConversations: 0,
-      conversationsStarted: 0,
-      conversationsCompleted: 0,
-      conversationsAbandoned: 0,
-      activeFlows: 0,
-      services: { whatsapp: 0, ai: 0, database: 0, redis: 0, email: 0, webchat: 0 },
-      httpRequestsActive: 0,
-      socketConnections: 0,
-    };
+  } catch {
+    return emptyMetrics();
   }
 }
