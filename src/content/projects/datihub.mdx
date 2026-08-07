@@ -1,49 +1,271 @@
 ---
-title: "DatiHub Backend"
-description: "Backend en producción con Clean Architecture, CQRS y PostgreSQL. Sistema de automatización de conversaciones con miles de usuarios activos."
-stack: ["TypeScript", "Node.js", "PostgreSQL", "Redis", "Clean Architecture", "CQRS", "tsyringe"]
-year: 2024
+title: "DatiHub — Arquitectura, Optimización y AI-Driven Development"
+description: "Clean Architecture + CQRS desde MVC. Optimización de queries, seguridad de dominio, CI/CD y sistema de AI-specs para desarrollo guiado por agentes de IA."
+stack: ["TypeScript", "Node.js", "PostgreSQL", "Redis", "Clean Architecture", "CQRS", "GitHub Actions", "Docker", "Prometheus"]
+year: 2025
 featured: true
 order: 1
-image: "/images/datihub-architecture.png"
 ---
 
-## El problema
+## El contexto
 
-DatiHub necesitaba un backend que procesara conversaciones a gran escala. La base de código original tenía funciones de cientos de líneas sin separación clara entre lógica de negocio e infraestructura.
+DatiHub es una plataforma de automatización de conversaciones para WhatsApp Business. Cuando me uní al proyecto, el backend estaba en producción pero tenía problemas estructurales serios:
 
-## Mi aporte
+**Contexto de negocio:** El proyecto nació como un asistente virtual de WhatsApp para automatizar flujos conversacionales dinámicos y centralizar interacciones con pacientes, operadores y sistemas externos como Odoo y Brevo. Actualmente atiende a 2 clientes activos, aunque el sistema evolucionó significativamente desde esa idea inicial para convertirse en una plataforma mucho más robusta.
 
-Lideré la reestructuración del backend aplicando Clean Architecture con CQRS para separar commands de queries. Esto permitió escalar lecturas y writes de forma independiente según el tráfico real.
+**Equipo:** Trabajé prácticamente solo en backend. Mi compañero se enfocaba en frontend y features puntuales donde tenía el contexto general. Yo tomé ownership del backend completo: arquitectura, optimización, CI/CD, monitoreo y procesos.
 
-### Arquitectura de flujos
+**Timeline:** Fueron meses de trabajo continuo, con una inversión significativa en refactorización y mejora de la base de código existente.
 
-Diseñé un sistema de flujos con Builder Pattern para crear conversaciones condicionales sin hardcodear lógica — mensajes, condiciones basadas en contexto, auto-advance con delays configurables.
+- **Base MVC con funciones** — No había patrones de diseño ni separación de responsabilidades
+- **Archivos de 500+ líneas** — Lógica de negocio, acceso a datos y llamadas a APIs mezcladas
+- **Sin monitoreo** — No había forma de identificar problemas proactivamente
+- **Consultas ineficientes** — Queries repetitivas y bucles N+1 afectando el tiempo de respuesta
+- **Seguridad débil** — Validaciones dispersas o inexistentes en el dominio
+- **Sin CI/CD** — Deploys manuales, sin testing automático, sin entornos aislados
+- **Sin versionado** — No había control de versiones claro ni documentación de cambios
+- **Desarrollo con IA inconsistente** — Múltiples agentes (OpenCode, Claude, Cursor) generando código con patrones diferentes, sin estándares comunes
 
-### Refactor de la base de código
+**Lo que ya funcionaba:** La integración con WhatsApp Cloud API y las conversaciones con IA ya estaban implementadas. No las modifiqué porque operaban correctamente y no eran mi responsabilidad.
 
-- Separación de lógica de negocio de infraestructura
-- Implementación de **tsyringe** como DI container para manejar dependencias de forma limpia
-- Repositorio abstracto + datasource para desacoplar el ORM
-- Sistema de errores jerárquico con distinción entre errores operacionales y de programa
+## El desafío
 
-### Infraestructura
+**Escalar un sistema que no estaba preparado para crecer.**
 
-- PostgreSQL + Prisma para persistencia
-- Redis para caché y pub/sub
-- PGMQ como cola de mensajes persistente (recuperación ante fallos)
-- Implementando observabilidad con Grafana + Prometheus
-- Stress testing y optimización de queries para concurrencia
+El backend procesaba cientos de conversaciones diarias, pero la arquitectura MVC no podía escalar. Las lecturas (dashboards, historiales) eran 10x más frecuentes que los writes, pero todo pasaba por el mismo modelo. No había forma de optimizar lecturas sin afectar writes.
 
-## Decisiones técnicas
+Necesitaba:
+1. **Separar responsabilidades** — Lógica de negocio, acceso a datos y APIs externas mezclados
+2. **Escalar lecturas independientemente** — Las queries de dashboard no podían seguir bloqueando writes
+3. **Mejorar seguridad** — Validaciones dispersas o inexistentes
+4. **Optimizar rendimiento** — Queries N+1 y bucles causando latencia
+5. **Agregar visibilidad** — Sin monitoreo, no podíamos medir el impacto de los cambios
+6. **Profesionalizar procesos** — Sin CI/CD, sin entornos aislados, sin versionado claro
+7. **Estandarizar desarrollo con IA** — Múltiples agentes generando código inconsistente sin patrones definidos
+
+### Lo más difícil
+
+**Aplicar patrones sin romper funcionalidad.** El sistema ya estaba en producción con clientes reales. No podía simplemente reescribir todo. Tenía que migrar de MVC a Clean Architecture manteniendo cada feature funcionando. Cada refactor era un acto de equilibrio: mejorar la estructura sin cambiar el comportamiento observable.
+
+**Inyección de dependencias modular.** Al principio, el contenedor de DI era un monolito. Cada servicio registrado en un solo archivo gigante. Encontrar la manera de agrupar dependencias por módulo fue iterativo. Probé varias estrategias antes de llegar a un sistema donde cada módulo registra sus propias dependencias, y el contenedor principal solo las compone.
+
+### Trade-offs
+
+**Velocidad vs calidad.** Sacrificamos velocidad de entrega para tener estructura lógica y origen arquitectónico. Cada feature nueva tomaba más tiempo porque había que pensar en las capas, los interfaces, los tests. Pero ese tiempo invertido se recuperaba después: las features siguientes eran más rápidas porque la base era sólida.
+
+**Complejidad vs mantenibilidad.** Clean Architecture agrega boilerplate. Más archivos, más interfaces, más código. Pero ese overhead se traduce en mantenibilidad: cuando algo cambia, sabés exactamente dónde tocar. Cuando un bug aparece, sabés en qué capa buscar.
+
+**Documentación vs velocidad.** Los AI-specs y la documentación extensiva toman tiempo. Pero sin ellos, cada desarrollador (humano o agente de IA) interpreta los patrones de forma diferente. La documentación es el contrato que garantiza consistencia.
+
+## La solución
+
+### Clean Architecture + CQRS
+
+**Decisión clave:** Implementé Clean Architecture con CQRS desde cero, migrando el backend MVC a una arquitectura en capas.
+
+**¿Por qué CQRS?**
+El volumen de lecturas era 10x mayor que writes. Separar comandos (crear mensaje, actualizar estado) de queries (listar conversaciones, dashboards) permitió:
+
+- **Optimizar queries de lectura** sin afectar el modelo de escritura
+- **Escalar lecturas independientemente** — Réplicas de PostgreSQL solo para queries
+- **Testing más simple** — Comandos y queries se testean por separado
+
+**Estructura implementada:**
+
+```
+src/
+├── domain/           # Entidades, value objects, reglas de negocio
+├── application/      # Casos de uso (commands + queries)
+├── infrastructure/   # Acceso a datos, APIs externas, colas
+└── presentation/     # Controladores HTTP
+```
+
+### Seguridad de dominio
+
+Implementé validaciones en el dominio para garantizar consistencia:
+
+- **Value Objects** — Email, PhoneNumber, MessageText con validaciones inherentes
+- **Entidades con invariantes** — Una conversación no puede cambiar de estado arbitrariamente
+- **Eventos de dominio** — Notificación de cambios de estado para audit trail
+
+**Ejemplo:**
+
+```typescript
+class Conversation {
+  private status: ConversationStatus;
+  
+  complete(): void {
+    if (this.status !== 'in_progress') {
+      throw new DomainError('Solo conversaciones en progreso pueden completarse');
+    }
+    this.status = 'completed';
+    this.addEvent(new ConversationCompletedEvent(this.id));
+  }
+}
+```
+
+**Resultado:** Mensajes de error claros y consistentes, imposibilidad de estados inválidos, audit trail completo.
+
+### Optimización de queries
+
+El problema más crítico era el rendimiento. Encontré y resolví:
+
+- **Queries N+1** — Bucles con queries dentro para cada conversación
+- **Consultas repetitivas** — Mismo dato consultado múltiples veces en una petición
+- **Falta de índices** — Queries sin aprovechar índices de PostgreSQL
+
+**Ejemplo concreto:**
+
+```typescript
+// ANTES: Query en bucle para cada conversación
+for (const conversation of conversations) {
+  const user = await db.user.findUnique({ 
+    where: { id: conversation.userId } 
+  });
+  // ... 200 líneas más de lógica
+}
+
+// DESPUÉS: Query única con JOIN
+const conversationsWithUsers = await db.conversation.findMany({
+  include: { user: true },
+  where: { status: 'active' }
+});
+```
+
+**Resultado:** Reducción de ~40% en tiempo de respuesta para endpoints críticos.
+
+### Sistema de flujos con Builder Pattern
+
+Diseñé un sistema de flujos conversacionales condicionales. En vez de hardcodear lógica, creé un Builder que permite definir flujos complejos:
+
+```typescript
+const flow = FlowBuilder.create()
+  .step('welcome', { message: 'Hola, ¿en qué puedo ayudarte?' })
+  .condition('hasOrder', {
+    ifTrue: 'orderDetails',
+    ifFalse: 'noOrder'
+  })
+  .step('orderDetails', { 
+    message: 'Perfecto, ¿cuál es tu número de orden?',
+    autoAdvance: { delay: 30000, next: 'timeout' }
+  })
+  .build();
+```
+
+**Resultado:** El equipo de producto puede definir flujos complejos sin tocar código.
+
+### Cola de mensajes persistente con PGMQ
+
+Elegí PGMQ (PostgreSQL Message Queue) sobre Redis Streams porque necesitaba **persistencia garantizada**. Si el backend fallaba después de recibir un webhook de WhatsApp pero antes de procesarlo, el mensaje tenía que recuperarse automáticamente.
+
+**Tradeoff:** Acepté un poco más de latencia en el consumo de mensajes a cambio de persistencia garantizada sin infraestructura adicional.
+
+### Integración con Odoo
+
+Implementé conexión con Odoo (ERP) para sincronizar datos de clientes y pedidos usando la API XML-RPC. Aunque esta integración ya no se usa activamente, el patrón quedó documentado para futuras referencias.
+
+### Dashboard de métricas
+
+Implementé métricas con Prometheus + Grafana para monitorear:
+
+- Conversaciones activas en tiempo real
+- Flujos en ejecución
+- Uptime de integraciones
+- Tasa de completación de conversaciones
+- Duración de respuestas de IA
+
+**Resultado:** Visibilidad completa del sistema, capacidad de identificar problemas proactivamente.
+
+### CI/CD, entornos y procesos
+
+Implementé un pipeline de integración continua con GitHub Actions que automatiza:
+
+- **Testing** — Ejecución automática de tests unitarios y de integración en cada push
+- **Linting** — Validación de estándares de código antes de merge
+- **Build** — Generación de imágenes Docker versionadas
+- **Deploy** — Despliegue automático a entornos de staging y producción
+
+**Estructura de entornos:**
+
+```
+dev      → Desarrollo local con datos de prueba
+staging  → Réplica de producción para QA
+production → Entorno real con datos de clientes
+```
+
+Cada entorno tiene sus propias variables de configuración, credenciales y bases de datos aisladas. Esto permitió:
+
+- **Testing seguro** — Probar cambios en staging antes de producción
+- **Rollback rápido** — Si algo falla, volver a la versión anterior en minutos
+- **Versionado semántico** — Cada release tiene un número de versión claro (v1.2.3)
+
+### AI-specs: Sistema de desarrollo guiado por IA
+
+Diseñé un ecosistema de especificaciones para que agentes de IA (OpenCode, Claude, Cursor, Copilot) desarrollen features siguiendo patrones arquitectónicos consistentes.
+
+**Estructura:**
+- **`.agents/`** — Definición de agentes con roles específicos (backend-developer, frontend-developer)
+- **`.commands/`** — Comandos ejecutables (`/plan-backend-ticket SCRUM-42` genera plan de implementación)
+- **`changes/`** — 23 specs de implementación (algunas 100KB+)
+- **`specs/`** — Manual maestro, OpenAPI, estándares (1281+ líneas), skills atómicas por patrón
+
+**¿Cómo funciona?**
+1. Todo agente lee `ai-handbook.md` primero (punto de entrada único)
+2. Ejecuta comandos como `/plan-backend-ticket` que generan specs completos antes de codificar
+3. Carga skills atómicas según el contexto (Clean Architecture, CQRS, Prisma, etc.)
+4. Si modifica `schema.prisma`, debe actualizar `data-model.md` automáticamente
+
+**Resultado:**
+- **23 specs documentadas** — Algunos de 100KB+ con planes completos (análisis de impacto, decisiones arquitectónicas, código de ejemplo, tests, migraciones)
+- **Agentes consistentes** — No importa qué agente implemente, el código sigue Clean Architecture + DDD
+- **Onboarding rápido** — Nuevos desarrolladores (humanos o agentes) productivan leyendo el handbook
+- **Documentación viva** — Los specs se actualizan con cada cambio, no quedan obsoletos
+
+**Ejemplo:** El spec `redis-cache-centralization_backend.md` (471 líneas) fue generado por un agente siguiendo `/plan-backend-ticket`, y luego otro agente lo implementó siguiendo el plan exactamente.
+
+## Resultados
+
+import DatiHubMetrics from '../../components/ui/DatiHubMetrics.astro';
+
+<DatiHubMetrics />
+
+**Lo que significan estos números:**
+
+- **1,961 conversaciones activas** — El sistema maneja ~2,000 conversaciones simultáneas sin degradación
+- **3 flujos activos** — Flujos conversacionales complejos en ejecución
+- **26% tasa de completación** — 1 de cada 4 conversaciones llega a completarse
+- **44 conversaciones completadas** — Automatizaciones exitosas sin intervención humana
+
+**Impacto de las optimizaciones:**
+
+- **Tiempo de respuesta reducido ~40%** — Endpoints críticos responden más rápido
+- **Código mantenible** — Clean Architecture + CQRS permite escalar sin acoplar componentes
+- **Seguridad robusta** — Validaciones de dominio previenen estados inválidos
+- **Visibilidad completa** — Dashboard de métricas permite tomar decisiones basadas en datos
+- **Deploy seguro** — CI/CD con testing automático y entornos aislados
+- **Desarrollo guiado por IA** — 23 specs de implementación (algunas 100KB+) permiten que agentes de IA desarrollen features siguiendo patrones consistentes
+
+## Decisiones técnicas y aprendizajes
+
+**¿Por qué Clean Architecture + CQRS?**
+El MVC no podía escalar. Las lecturas eran 10x más frecuentes que writes, pero todo pasaba por el mismo modelo. CQRS permitió optimizar lecturas independientemente. Clean Architecture dio separación clara de responsabilidades, haciendo el código testeable y mantenible.
 
 **¿Por qué PGMQ sobre Redis Streams?**
-La cola persistente era importante para recuperación ante fallos. PGMQ sobre Postgres dio persistencia + operaciones atómicas sin mantener otro sistema.
+Redis Streams es más rápido, pero no persistente por defecto. Si Redis se reinicia, perdés mensajes. PGMQ sobre PostgreSQL dio persistencia + operaciones atómicas sin mantener otro sistema.
 
-**CQRS desde la reestructuración**
-El volumen de lecturas es 10x mayor que writes. CQRS permitió optimizar queries sin complicar el modelo de dominio.
+**¿Por qué AI-specs como sistema completo?**
+Los agentes de IA son poderosos pero inconsistentes. Sin especificaciones claras, cada agente interpreta los patrones de forma diferente. El sistema garantiza que todos sigan los mismos patrones arquitectónicos, usen las mismas convenciones, y mantengan la documentación sincronizada.
 
-**tsyringe como DI container**
-Pasamos de inyección manual inconsistente a un contenedor liviano que simplificó las dependencias sin agregar magia.
+**Lo que aprendí:**
 
-{/* Métricas a confirmar */}
+- **Clean Architecture tiene overhead, pero vale la pena a escala.** Las capas de abstracción agregan boilerplate, pero para un sistema con 6 integraciones externas y lógica compleja, el overhead es manejable y los beneficios son reales.
+
+- **CQRS no es solo "separar lecturas de writes".** Es pensar en los modelos de dominio de forma independiente. El modelo de escritura es diferente al modelo de lectura. Tratarlos como uno solo lleva a queries ineficientes.
+
+- **Las validaciones de dominio previenen bugs antes de que ocurran.** En vez de validar en cada endpoint, validás una vez en el dominio. Si la regla cambia, cambiás un lugar, no diez.
+
+- **Los agentes de IA necesitan constraints, no freedom.** Cuanto más específicos son los patrones (nunca `throw new Error()`, siempre `ErrorFactory.create()`), más consistente es el código generado. La libertad sin constraints genera caos.
+
+- **La arquitectura se valida en la práctica, no en teoría.** No tuvimos revisión formal de un arquitecto, pero mi compañero frontend pudo adaptarse fácilmente a los cambios, y otro miembro implementó endpoints sin dificultad gracias a la documentación y los AI-specs.
+
+- **La extensibilidad se diseña, no se improvisa.** El sistema evolucionó hasta el punto donde agregar nuevas capas es simple: solo necesitás un adaptador. Eso no pasó por accidente. Pasó porque cada módulo se diseñó pensando en cómo podría extenderse, no solo en cómo funciona hoy.

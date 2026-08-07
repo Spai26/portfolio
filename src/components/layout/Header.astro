@@ -9,13 +9,11 @@ const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/projects', label: 'Proyectos' },
   { href: '/about', label: 'About' },
-//  { href: '/writing', label: 'Writing' },
+  { href: '/writing', label: 'Writing' },
 ];
 ---
 
 <header class="site-header">
-  <a href="#main-content" class="skip-link">Saltar al contenido</a>
-
   <nav class="nav container" aria-label="Main navigation">
     <a href="/" class="nav-logo" aria-label="Sergio Ávalos — Home">
       <span class="logo-text">SA</span>
@@ -76,7 +74,7 @@ const navLinks = [
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 60px;
+    height: var(--nav-height);
   }
 
   .nav-logo {
@@ -88,10 +86,10 @@ const navLinks = [
     font-size: var(--text-sm);
     font-weight: 700;
     letter-spacing: var(--tracking-wider);
-    color: var(--color-accent);
-    border: 1px solid var(--color-accent);
-    padding: 4px 8px;
-    border-radius: 4px;
+    color: var(--color-accent-text);
+    border: 1px solid var(--color-accent-text);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-md);
     transition: all var(--transition-fast);
   }
 
@@ -102,7 +100,7 @@ const navLinks = [
   .nav-links {
     display: flex;
     align-items: center;
-    gap: var(--space-8);
+    gap: var(--space-4);
     list-style: none;
   }
 
@@ -118,24 +116,24 @@ const navLinks = [
   }
 
   .nav-link:hover {
-    color: var(--color-accent);
+    color: var(--color-accent-text);
   }
 
   .nav-link.active {
-    color: var(--color-accent);
+    color: var(--color-accent-text);
   }
 
   .nav-link.active::after {
     content: '';
     display: block;
     height: 1px;
-    background: var(--color-accent);
+    background: var(--color-accent-bg);
     margin-top: 2px;
   }
 
-  @media (max-width: 640px) {
+  @media (min-width: 640px) {
     .nav-links {
-      gap: var(--space-4);
+      gap: var(--space-8);
     }
   }
 
@@ -148,7 +146,7 @@ const navLinks = [
     height: 32px;
     background: transparent;
     border: 1px solid var(--color-border);
-    border-radius: 6px;
+    border-radius: var(--radius-md);
     color: var(--color-text-muted);
     cursor: pointer;
     transition: color var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
@@ -156,8 +154,8 @@ const navLinks = [
   }
 
   .theme-toggle:hover {
-    color: var(--color-accent);
-    border-color: var(--color-accent);
+    color: var(--color-accent-text);
+    border-color: var(--color-accent-text);
     background: var(--color-glow);
   }
 

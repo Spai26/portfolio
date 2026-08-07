@@ -4,18 +4,20 @@ interface Props {
   description?: string;
   image?: string;
   canonicalUrl?: string;
+  ogType?: string;
 }
 
 const {
   title,
   description = 'Portfolio de Sergio Ávalos — Backend Developer. Lima, Perú.',
   image,
-  canonicalUrl
+  canonicalUrl,
+  ogType = 'website'
 } = Astro.props;
 
-const siteUrl = 'https://sergioavalosdev.netlify.app';
-const resolvedCanonical = canonicalUrl ?? new URL(Astro.url.pathname, siteUrl).href;
-const resolvedImage = image ? new URL(image, siteUrl).href : undefined;
+const siteUrl = import.meta.env.SITE || '';
+const resolvedCanonical = canonicalUrl && siteUrl ? new URL(canonicalUrl, siteUrl).href : Astro.url.href;
+const resolvedImage = image && siteUrl ? new URL(image, siteUrl).href : '';
 ---
 
 <!-- Charset & Viewport -->
@@ -27,13 +29,13 @@ const resolvedImage = image ? new URL(image, siteUrl).href : undefined;
 <meta name="description" content={description} />
 <link rel="canonical" href={resolvedCanonical} />
 
-<!-- Favicon (inline SVG as data URI) -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖥️</text></svg>" />
+<!-- Favicon (inline SVG monogram) -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' font-weight='bold' font-family='serif'>S</text></svg>" />
 
 <!-- Open Graph -->
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:type" content="website" />
+<meta property="og:type" content={ogType} />
 <meta property="og:url" content={resolvedCanonical} />
 {resolvedImage && <meta property="og:image" content={resolvedImage} />}
 <meta property="og:site_name" content="Sergio Ávalos" />
@@ -44,10 +46,23 @@ const resolvedImage = image ? new URL(image, siteUrl).href : undefined;
 <meta name="twitter:description" content={description} />
 {resolvedImage && <meta name="twitter:image" content={resolvedImage} />}
 
+<!-- JSON-LD Structured Data -->
+{siteUrl && <script is:inline type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Sergio Ávalos",
+  "jobTitle": "Backend Developer",
+  "url": siteUrl,
+  "sameAs": [
+    "https://github.com/Spai26",
+    "https://www.linkedin.com/in/sergioai93/"
+  ]
+})} />}
+
 <!-- Sitemap -->
 <link rel="sitemap" href="/sitemap-index.xml" />
 
 <!-- Fonts preconnect -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />

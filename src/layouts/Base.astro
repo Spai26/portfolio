@@ -8,25 +8,17 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  ogType?: string;
 }
 
-const { title, description, image } = Astro.props;
+const { title, description, image, ogType } = Astro.props;
 const pageTitle = title === 'Sergio Ávalos' ? title : `${title} — Sergio Ávalos`;
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
-    <BaseHead title={pageTitle} description={description} image={image} />
-  </head>
-  <body>
-    <Header />
-    <main id="main-content">
-      <slot />
-    </main>
-    <Footer />
-
-    <!-- Theme init: prevents FOUC before JS runs -->
+    <!-- Theme init: prevents FOUC before any render -->
     <script is:inline>
       (function () {
         const saved = localStorage.getItem('theme');
@@ -35,5 +27,14 @@ const pageTitle = title === 'Sergio Ávalos' ? title : `${title} — Sergio Áva
         document.documentElement.setAttribute('data-theme', theme);
       })();
     </script>
+    <BaseHead title={pageTitle} description={description} image={image} ogType={ogType} />
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Saltar al contenido</a>
+    <Header />
+    <main id="main-content" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
   </body>
 </html>

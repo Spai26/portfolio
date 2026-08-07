@@ -4,7 +4,6 @@ const year = new Date().getFullYear();
 const footerLinks = [
   { href: 'https://github.com/Spai26', label: 'GitHub' },
   { href: 'https://www.linkedin.com/in/sergioai93/', label: 'LinkedIn' },
-  { href: 'mailto:sergioai.si93@gmail.com', label: 'Email' },
 ];
 ---
 
@@ -44,6 +43,8 @@ const footerLinks = [
     justify-content: space-between;
     flex-wrap: wrap;
     gap: var(--space-4);
+    flex-direction: column;
+    text-align: center;
   }
 
   .footer-copy {
@@ -53,6 +54,8 @@ const footerLinks = [
     align-items: center;
     gap: var(--space-2);
     margin: 0;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .footer-name {
@@ -76,18 +79,18 @@ const footerLinks = [
   }
 
   .footer-link:hover {
-    color: var(--color-accent);
+    color: var(--color-accent-text);
   }
 
-  @media (max-width: 640px) {
+  @media (min-width: 640px) {
     .footer-content {
-      flex-direction: column;
-      text-align: center;
+      flex-direction: row;
+      text-align: left;
     }
 
     .footer-copy {
-      flex-wrap: wrap;
-      justify-content: center;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
     }
   }
 </style>

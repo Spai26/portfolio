@@ -1,0 +1,197 @@
+---
+import { fetchDatiHubMetrics } from '../../lib/datihub-metrics';
+
+const metrics = await fetchDatiHubMetrics();
+const {
+  activeConversations,
+  conversationsStarted,
+  conversationsCompleted,
+  activeFlows,
+} = metrics;
+
+const completionRate = conversationsStarted > 0 
+  ? Math.round((conversationsCompleted / conversationsStarted) * 100) 
+  : 0;
+---
+
+<div class="metrics-dashboard">
+  <header class="metrics-header">
+    <h3 class="metrics-title">Métricas en producción</h3>
+    <p class="metrics-subtitle">Datos extraídos en tiempo real del endpoint de Prometheus</p>
+  </header>
+
+  <div class="metrics-grid">
+    <div class="metric-card metric-primary">
+      <span class="metric-value">{activeConversations.toLocaleString()}</span>
+      <span class="metric-label">Conversaciones activas</span>
+    </div>
+
+    <div class="metric-card">
+      <span class="metric-value">{activeFlows}</span>
+      <span class="metric-label">Flujos activos</span>
+    </div>
+
+    <div class="metric-card">
+      <span class="metric-value">{completionRate}%</span>
+      <span class="metric-label">Tasa de completación</span>
+    </div>
+
+    <div class="metric-card">
+      <span class="metric-value">{conversationsCompleted}</span>
+      <span class="metric-label">Conversaciones completadas</span>
+    </div>
+  </div>
+
+  <div class="integrations-section">
+    <h4 class="integrations-title">Integraciones en producción</h4>
+    <div class="integrations-grid">
+      <div class="integration-item">
+        <span class="integration-name">WhatsApp Cloud API</span>
+        <span class="integration-status integration-up">●</span>
+      </div>
+      <div class="integration-item">
+        <span class="integration-name">AWS Bedrock (IA)</span>
+        <span class="integration-status integration-up">●</span>
+      </div>
+      <div class="integration-item">
+        <span class="integration-name">PostgreSQL + Prisma</span>
+        <span class="integration-status integration-up">●</span>
+      </div>
+      <div class="integration-item">
+        <span class="integration-name">Redis</span>
+        <span class="integration-status integration-up">●</span>
+      </div>
+      <div class="integration-item">
+        <span class="integration-name">Brevo (Email)</span>
+        <span class="integration-status integration-up">●</span>
+      </div>
+      <div class="integration-item">
+        <span class="integration-name">Socket.IO</span>
+        <span class="integration-status integration-up">●</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .metrics-dashboard {
+    margin-block: var(--space-8);
+    padding: var(--space-6);
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+  }
+
+  .metrics-header {
+    margin-bottom: var(--space-6);
+  }
+
+  .metrics-title {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-1);
+  }
+
+  .metrics-subtitle {
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+    margin: 0;
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .metric-card {
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    text-align: center;
+  }
+
+  .metric-card.metric-primary {
+    border-color: var(--color-accent-bg);
+    background: var(--color-glow);
+  }
+
+  .metric-value {
+    display: block;
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    color: var(--color-accent-text);
+    line-height: var(--leading-tight);
+    margin-bottom: var(--space-1);
+    font-family: var(--font-mono);
+  }
+
+  .metric-primary .metric-value {
+    color: var(--color-accent-text);
+  }
+
+  .metric-label {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .integrations-section {
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .integrations-title {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+    margin-bottom: var(--space-4);
+  }
+
+  .integrations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-3);
+  }
+
+  .integration-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .integration-name {
+    font-size: var(--text-sm);
+    color: var(--color-text);
+  }
+
+  .integration-status {
+    font-size: var(--text-lg);
+    line-height: 1;
+  }
+
+  .integration-up {
+    color: var(--color-accent-text);
+  }
+
+  @media (max-width: 640px) {
+    .metrics-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .integrations-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

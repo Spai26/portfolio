@@ -1,23 +1,24 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { getCollection } from 'astro:content';
-import { formatDate, readingTime } from '../../lib/utils';
+import { getCollection, render } from 'astro:content';
+import { formatDate, readingTime, getSlug } from '../../lib/utils';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('writing');
+  const posts = await getCollection('writing', ({ data }) => !data.draft);
   return posts.map(post => ({
-    params: { slug: post.slug },
+    params: { slug: getSlug(post) },
     props: { post },
   }));
 }
 
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 ---
 
 <Base
   title={post.data.title}
   description={post.data.description}
+  ogType="article"
 >
   <article class="post-page">
     <header class="post-header">
@@ -27,7 +28,7 @@ const { Content } = await post.render();
           <time class="post-date" datetime={post.data.date.toISOString()}>
             {formatDate(post.data.date)}
           </time>
-          <span class="post-reading">{readingTime(post.body)}</span>
+          <span class="post-reading">{readingTime(post.body ?? '')}</span>
         </div>
         <h1 class="post-title">{post.data.title}</h1>
         <p class="post-description">{post.data.description}</p>
@@ -74,7 +75,7 @@ const { Content } = await post.render();
   }
 
   .back-link:hover {
-    color: var(--color-accent);
+    color: var(--color-accent-text);
   }
 
   .post-meta {
@@ -87,7 +88,7 @@ const { Content } = await post.render();
   .post-date {
     font-family: var(--font-mono);
     font-size: var(--text-xs);
-    color: var(--color-accent);
+    color: var(--color-accent-text);
     letter-spacing: var(--tracking-wide);
   }
 
@@ -125,8 +126,8 @@ const { Content } = await post.render();
     color: var(--color-text-subtle);
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    padding: 3px 10px;
-    border-radius: 3px;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
   }
 
   .post-content {

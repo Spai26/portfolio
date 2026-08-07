@@ -2,9 +2,6 @@
    Global CSS — Design Tokens + Reset + Base
    ============================================================ */
 
-/* ── Google Fonts ─────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
-
 /* ── All Design Tokens — Dark Mode (default, Vapordrive) ─── */
 :root {
   /* Font families */
@@ -50,6 +47,17 @@
   --content-width:  680px;
   --gutter:         clamp(1rem, 5vw, 2rem);
 
+  /* Radius */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* Shadows */
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  /* Nav */
+  --nav-height: 60px;
+
   /* Transitions */
   --transition-fast:   0.12s ease;
   --transition-normal: 0.20s ease;
@@ -61,19 +69,21 @@
 
   --color-text:        #F2EDE4;
   --color-text-muted:  #C8C3BB;
-  --color-text-subtle: #7A7870;
+  --color-text-subtle: #9A9890;
 
-  --color-border:       rgba(45, 138, 126, 0.30);
-  --color-border-strong: rgba(45, 138, 126, 0.50);
+  --color-border:       rgba(63, 168, 155, 0.30);
+  --color-border-strong: rgba(63, 168, 155, 0.50);
 
   --color-glow:        rgba(91, 191, 181, 0.10);
   --color-glow-strong: rgba(91, 191, 181, 0.20);
 
   /* Accent — Vapordrive Teal */
-  --color-accent:      #2D8A7E;
-  --color-accent-mid:  #3FA89B;
-  --color-accent-light:#5BBFB5;
   --color-accent-pale: #A8E0DB;
+  --color-accent-text: #5BBFB5;
+  --color-accent-bg:  #1A7A72;
+
+  /* On-accent text */
+  --color-on-accent:   #FFFFFF;
 }
 
 /* ── Light Mode Override (manual toggle via data-theme) ── */
@@ -89,8 +99,10 @@
   --color-border:       rgba(0, 0, 0, 0.08);
   --color-border-strong: rgba(0, 0, 0, 0.15);
 
-  --color-glow:        rgba(45, 138, 126, 0.12);
-  --color-glow-strong: rgba(45, 138, 126, 0.25);
+  --color-glow:        rgba(63, 168, 155, 0.12);
+  --color-glow-strong: rgba(63, 168, 155, 0.25);
+  --color-accent-text: #1A7A72;
+  --color-accent-bg:  #1A7A72;
 }
 
 /* ── Dark Mode Explicit (data-theme override) ── */
@@ -101,13 +113,15 @@
 
   --color-text:        #F2EDE4;
   --color-text-muted:  #C8C3BB;
-  --color-text-subtle: #7A7870;
+  --color-text-subtle: #9A9890;
 
-  --color-border:       rgba(45, 138, 126, 0.30);
-  --color-border-strong: rgba(45, 138, 126, 0.50);
+  --color-border:       rgba(63, 168, 155, 0.30);
+  --color-border-strong: rgba(63, 168, 155, 0.50);
 
   --color-glow:        rgba(91, 191, 181, 0.10);
   --color-glow-strong: rgba(91, 191, 181, 0.20);
+  --color-accent-text: #5BBFB5;
+  --color-accent-bg:  #1A7A72;
 }
 
 /* ── System preference fallback (no JS / no saved preference) ── */
@@ -124,8 +138,10 @@
     --color-border:       rgba(0, 0, 0, 0.08);
     --color-border-strong: rgba(0, 0, 0, 0.15);
 
-    --color-glow:        rgba(45, 138, 126, 0.12);
-    --color-glow-strong: rgba(45, 138, 126, 0.25);
+    --color-glow:        rgba(63, 168, 155, 0.12);
+    --color-glow-strong: rgba(63, 168, 155, 0.25);
+    --color-accent-text: #1A7A72;
+    --color-accent-bg:  #1A7A72;
   }
 }
 
@@ -226,14 +242,14 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .prose li::marker {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 .prose code {
   font-size: 0.875em;
   background: var(--color-bg-subtle);
   padding: 0.125em 0.375em;
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
   font-family: var(--font-mono);
 }
@@ -241,7 +257,7 @@ p, h1, h2, h3, h4, h5, h6 {
 .prose pre {
   background: var(--color-bg-subtle);
   border: 1px solid var(--color-border);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   padding: var(--space-4);
   overflow-x: auto;
   margin-block: var(--space-6);
@@ -285,7 +301,7 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .prose blockquote {
-  border-left: 3px solid var(--color-accent);
+  border-left: var(--radius-sm) solid var(--color-accent-text);
   padding-left: var(--space-4);
   margin-inline: 0;
   color: var(--color-text-muted);
@@ -300,13 +316,9 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 .prose a {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   text-decoration: none;
   transition: color var(--transition-fast);
-}
-
-.prose a:hover {
-  color: var(--color-accent-light);
 }
 
 /* ── Skip Link ────────────────────────────────────────────── */
@@ -314,10 +326,10 @@ p, h1, h2, h3, h4, h5, h6 {
   position: absolute;
   top: -100%;
   left: var(--space-4);
-  background: var(--color-accent);
-  color: #fff;
+  background: var(--color-accent-bg);
+  color: var(--color-on-accent);
   padding: var(--space-2) var(--space-4);
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
   font-size: 0.875rem;
   font-weight: 500;
   text-decoration: none;
@@ -331,25 +343,21 @@ p, h1, h2, h3, h4, h5, h6 {
 
 /* ── Focus ────────────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-accent-bg);
   outline-offset: 2px;
 }
 
 /* ── Selection ────────────────────────────────────────────── */
 ::selection {
-  background: var(--color-accent);
-  color: #fff;
+  background: var(--color-accent-bg);
+  color: var(--color-on-accent);
 }
 
 /* ── Links ────────────────────────────────────────────────── */
 a {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
   text-decoration: none;
   transition: color var(--transition-fast);
-}
-
-a:hover {
-  color: var(--color-accent-light);
 }
 
 /* ── Reduced Motion ─────────────────────────────────────── */
@@ -361,7 +369,7 @@ a:hover {
   }
 
   html {
-    scroll-behavior: auto;
+    scroll-behavior: auto !important;
   }
 }
 
@@ -399,7 +407,7 @@ a:hover {
 .text       { color: var(--color-text); }
 .text-muted { color: var(--color-text-muted); }
 .text-subtle{ color: var(--color-text-subtle); }
-.text-accent{ color: var(--color-accent); }
+.text-accent{ color: var(--color-accent-text); }
 
 .font-normal   { font-weight: 400; }
 .font-medium   { font-weight: 500; }
@@ -451,14 +459,14 @@ code {
   font-size: 0.875em;
   background: var(--color-bg-subtle);
   padding: 0.125em 0.375em;
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
 }
 
 pre {
   background: var(--color-bg-subtle);
   border: 1px solid var(--color-border);
-  border-radius: 6px;
+  border-radius: var(--radius-md);
   padding: var(--space-4);
   overflow-x: auto;
 }
@@ -481,12 +489,12 @@ li {
 }
 
 li::marker {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
 /* ── Blockquote ──────────────────────────────────────────── */
 blockquote {
-  border-left: 3px solid var(--color-accent);
+  border-left: var(--radius-sm) solid var(--color-accent-text);
   padding-left: var(--space-4);
   margin-inline: 0;
   color: var(--color-text-muted);
@@ -504,4 +512,82 @@ hr {
 small {
   font-size: var(--text-sm);
   color: var(--color-text-subtle);
+}
+
+/* ── Button System ─────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-xs);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Sizes */
+.btn-sm {
+  font-size: var(--text-xs);
+  padding: var(--space-1) var(--space-3);
+}
+
+.btn-md {
+  font-size: var(--text-xs);
+  padding: var(--space-2) var(--space-4);
+}
+
+.btn-lg {
+  font-size: var(--text-sm);
+  padding: var(--space-3) var(--space-6);
+}
+
+/* Variants */
+.btn-primary {
+  background: var(--color-accent-bg);
+  color: var(--color-on-accent);
+  border-color: var(--color-accent-bg);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-accent-bg);
+  border-color: var(--color-accent-bg);
+  box-shadow: 0 0 20px var(--color-glow-strong);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-accent-text);
+  border-color: var(--color-accent-text);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--color-glow);
+  border-color: var(--color-accent-text);
+  color: var(--color-accent-text);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  color: var(--color-text);
+  border-color: var(--color-border-strong);
+  background: var(--color-bg-subtle);
 }

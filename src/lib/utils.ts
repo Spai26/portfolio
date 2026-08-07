@@ -15,14 +15,10 @@ export function formatDate(date: Date | string): string {
 }
 
 /**
- * Format a date to short string (ISO-like)
+ * Derive URL slug from a Content Layer entry id
  */
-export function formatDateShort(date: Date | string): string {
-  const d = typeof date === 'string' ? new Date(date) : date;
-  return d.toLocaleDateString('es-ES', {
-    year: 'numeric',
-    month: 'short',
-  });
+export function getSlug(entry: { id: string }): string {
+  return entry.id.replace(/\.mdx$/, '');
 }
 
 /**
@@ -30,15 +26,14 @@ export function formatDateShort(date: Date | string): string {
  */
 export function readingTime(content: string): string {
   const wordsPerMinute = 200;
-  const words = content.trim().split(/\s+/).length;
+  // Strip markdown syntax before counting words
+  const plain = content
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/`[^`]+`/g, '')
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/[#*>_\-\|]/g, '')
+    .trim();
+  const words = plain.split(/\s+/).filter(Boolean).length;
   const minutes = Math.ceil(words / wordsPerMinute);
   return `${minutes} min de lectura`;
-}
-
-/**
- * Truncate text to specified length
- */
-export function truncate(text: string, length: number): string {
-  if (text.length <= length) return text;
-  return text.slice(0, length).trim() + '...';
 }

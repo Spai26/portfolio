@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://sergioavalosdev.netlify.app/sitemap-index.xml

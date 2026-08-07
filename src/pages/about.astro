@@ -1,12 +1,21 @@
 ---
 import Base from '../layouts/Base.astro';
+import StackTable from '../components/ui/StackTable.astro';
+import ContactForm from '../components/sections/ContactForm.astro';
+
+const stackRows = [
+  { level: 'Producción', tech: 'Node.js, TypeScript, Express, Clean Architecture, DDD, CQRS, PostgreSQL, Prisma, Redis' },
+  { level: 'Focus actual', tech: 'Observabilidad (Grafana/Prometheus), Stress testing, Optimización de queries, Concurrencia' },
+  { level: 'Utilizado en proyectos', tech: 'React, GraphQL, MongoDB, Docker, AWS (EC2, RDS), JWT, Zod, Cloudinary, Stripe, Mercado Pago' },
+  { level: 'Aprendiendo', tech: 'Go' },
+];
 ---
 
 <Base
   title="About"
   description="Backend Developer con experiencia en Clean Architecture, DDD, CQRS, TypeScript y Node.js. Estudiante de Ingeniería de Sistemas."
 >
-  <article class="about-page">
+  <div class="about-page">
     <header class="about-header">
       <div class="container">
         <h1 class="about-title">About</h1>
@@ -15,7 +24,7 @@ import Base from '../layouts/Base.astro';
 
     <div class="about-content">
       <div class="container prose">
-        <section class="bio-section">
+        <article class="bio-section">
           <h2>Quién soy</h2>
           <p>
             Construyo sistemas que funcionan en producción. Backend con Node.js y
@@ -32,9 +41,9 @@ import Base from '../layouts/Base.astro';
             Actualmente cursando <strong>Ingeniería de Sistemas</strong>,
             combinando años de experiencia práctica con la teoría formal.
           </p>
-        </section>
+        </article>
 
-        <section class="bio-section">
+        <article class="bio-section">
           <h2>Experiencia</h2>
           <div class="timeline">
             <div class="timeline-item">
@@ -56,31 +65,14 @@ import Base from '../layouts/Base.astro';
               </p>
             </div>
           </div>
-        </section>
+        </article>
 
-        <section class="bio-section">
+        <article class="bio-section">
           <h2>Stack técnico</h2>
-          <div class="stack-table">
-            <div class="stack-row">
-              <span class="stack-level">Producción</span>
-              <span class="stack-tech">Node.js, TypeScript, Express, Clean Architecture, DDD, CQRS, PostgreSQL, Prisma, Redis</span>
-            </div>
-            <div class="stack-row">
-              <span class="stack-level">Focus actual</span>
-              <span class="stack-tech">Observabilidad (Grafana/Prometheus), Stress testing, Optimización de queries, Concurrencia</span>
-            </div>
-            <div class="stack-row">
-              <span class="stack-level">Utilizado en proyectos</span>
-              <span class="stack-tech">React, GraphQL, MongoDB, Docker, AWS (EC2, RDS), JWT, Zod, Cloudinary, Stripe, Mercado Pago</span>
-            </div>
-            <div class="stack-row">
-              <span class="stack-level">Aprendiendo</span>
-              <span class="stack-tech">Go</span>
-            </div>
-          </div>
-        </section>
+          <StackTable rows={stackRows} />
+        </article>
 
-        <section class="bio-section">
+        <article class="bio-section">
           <h2>Cómo trabajo</h2>
           <p>
             Creo en código testeable, separación clara de responsabilidades,
@@ -91,20 +83,24 @@ import Base from '../layouts/Base.astro';
             Communication matters. Prefiero documentar decisiones técnicas
             que explicar después por qué algo se rompió.
           </p>
-        </section>
+        </article>
 
-        <section class="bio-section contact-section">
+        <article class="bio-section">
           <h2>Contacto</h2>
-          <p>¿Buscas alguien que construya backend de verdad?</p>
+          <p>
+            ¿Tenés un proyecto en mente o querés conversar sobre arquitectura backend?
+            Contactame directamente a través del formulario o por LinkedIn.
+          </p>
           <div class="contact-links">
-            <a href="mailto:sergioai.si93@gmail.com" class="contact-btn">Escríbeme</a>
-            <a href="https://www.linkedin.com/in/sergioai93/" class="contact-link" target="_blank" rel="noopener">LinkedIn</a>
-            <a href="https://github.com/Spai26" class="contact-link" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://www.linkedin.com/in/sergioai93/" class="contact-link" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://github.com/Spai26" class="contact-link" target="_blank" rel="noopener noreferrer">GitHub</a>
           </div>
-        </section>
+        </article>
       </div>
     </div>
-  </article>
+  </div>
+
+  <ContactForm />
 </Base>
 
 <style>
@@ -146,13 +142,13 @@ import Base from '../layouts/Base.astro';
 
   .timeline-item {
     padding-left: var(--space-6);
-    border-left: 2px solid var(--color-accent);
+    border-left: 2px solid var(--color-accent-text);
   }
 
   .timeline-date {
     font-family: var(--font-mono);
     font-size: var(--text-xs);
-    color: var(--color-accent);
+    color: var(--color-accent-text);
     letter-spacing: var(--tracking-wide);
   }
 
@@ -175,37 +171,6 @@ import Base from '../layouts/Base.astro';
     margin: 0;
   }
 
-  .stack-table {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .stack-row {
-    display: flex;
-    gap: var(--space-4);
-    padding: var(--space-3) var(--space-4);
-    background: var(--color-bg-subtle);
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-  }
-
-  .stack-level {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--color-accent);
-    letter-spacing: var(--tracking-wide);
-    min-width: 120px;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-
-  .stack-tech {
-    font-size: var(--text-sm);
-    color: var(--color-text);
-    line-height: var(--leading-normal);
-  }
-
   .contact-section p {
     font-size: var(--text-lg);
     margin-bottom: var(--space-4);
@@ -218,27 +183,6 @@ import Base from '../layouts/Base.astro';
     gap: var(--space-4);
   }
 
-  .contact-btn {
-    display: inline-flex;
-    align-items: center;
-    padding: var(--space-3) var(--space-6);
-    background: var(--color-accent);
-    color: #fff;
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 500;
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: all var(--transition-fast);
-  }
-
-  .contact-btn:hover {
-    background: var(--color-accent-mid);
-    box-shadow: 0 0 20px var(--color-glow-strong);
-  }
-
   .contact-link {
     font-family: var(--font-mono);
     font-size: var(--text-xs);
@@ -249,6 +193,6 @@ import Base from '../layouts/Base.astro';
   }
 
   .contact-link:hover {
-    color: var(--color-accent);
+    color: var(--color-accent-text);
   }
 </style>

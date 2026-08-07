@@ -7,6 +7,9 @@ node_modules/
 
 # Environment variables
 .env
+.env.local
+.env.development
+.env.production
 .env.*
 !.env.example
 
@@ -18,15 +21,30 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp *.swo
+*~
 
 # Logs
 *.log
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Cache
 .cache/
+.parcel-cache/
 
-# additional ignores
+# Testing
 coverage/
-portfolio-dev-brief.md
+
+# Package manager files (use pnpm only)
+package-lock.json
+yarn.lock
+pnpm-workspace.yaml
+
+# Temporary files
+*.tmp
+*.temp
+
+# Additional ignores
 sdd/*
+.atl/.skill-registry.cache.json

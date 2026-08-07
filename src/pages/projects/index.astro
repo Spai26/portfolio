@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
+import { getSlug } from '../../lib/utils';
 import ProjectCard from '../../components/ui/ProjectCard.astro';
 
 const allProjects = await getCollection('projects', ({ data }) => !data.draft);
@@ -29,9 +30,10 @@ const projects = allProjects.sort((a, b) => b.data.year - a.data.year);
             description={project.data.description}
             stack={project.data.stack}
             year={project.data.year}
-            href={`/projects/${project.slug}`}
+            href={`/projects/${getSlug(project)}`}
             featured={project.data.featured}
             repoUrl={project.data.repoUrl}
+            demoUrl={project.data.demoUrl}
           />
         ))}
       </div>
@@ -70,7 +72,7 @@ const projects = allProjects.sort((a, b) => b.data.year - a.data.year);
 
   .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: 1fr;
     gap: var(--space-6);
   }
 
@@ -94,9 +96,9 @@ const projects = allProjects.sort((a, b) => b.data.year - a.data.year);
     font-size: var(--text-sm);
   }
 
-  @media (max-width: 640px) {
+  @media (min-width: 640px) {
     .projects-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     }
   }
 </style>
