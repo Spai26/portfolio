@@ -84,6 +84,7 @@ const formspreeId = import.meta.env.FORMSPREE_ID || '';
     
     submitBtn.disabled = true;
     submitBtn.textContent = 'Enviando...';
+    errorDiv.style.display = 'none';
     
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
@@ -102,9 +103,15 @@ const formspreeId = import.meta.env.FORMSPREE_ID || '';
         form.style.display = 'none';
         successDiv.style.display = 'block';
       } else {
-        throw new Error('Error al enviar');
+        const errorData = await response.json().catch(() => ({}));
+        const errorMsg = errorData.error || `Error ${response.status}: ${response.statusText}`;
+        errorDiv.innerHTML = `<p>Error al enviar: ${errorMsg}</p>`;
+        errorDiv.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar mensaje';
       }
     } catch (error) {
+      errorDiv.innerHTML = `<p>Error de conexión: ${error.message}</p>`;
       errorDiv.style.display = 'block';
       submitBtn.disabled = false;
       submitBtn.textContent = 'Enviar mensaje';
